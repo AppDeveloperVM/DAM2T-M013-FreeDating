@@ -25,7 +25,7 @@ class LoginFragment : Fragment() {
             container,
             false
         )
-        viewModel = binding.viewModel;
+        viewModel = binding.viewModel!!;
 
         return binding.root;
     }
