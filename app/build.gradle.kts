@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
 //    id("kotlin-kapt")
 //    id("androidx.navigation.safeargs")
+    id("com.google.gms.google-services")
 }
 
 val supportVersion by extra ("28.0.0")
@@ -76,6 +77,11 @@ dependencies {
     // RxJava2
     implementation("io.reactivex.rxjava2:rxjava:$rxJavaVersion")
     implementation("io.reactivex.rxjava2:rxandroid:$rxJavaVersion")
+
+    //Firebase
+    implementation ("com.google.firebase:firebase-bom:29.0.0")
+    implementation ("com.google.firebase:firebase-analytics-ktx")
+
     // Tests
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
