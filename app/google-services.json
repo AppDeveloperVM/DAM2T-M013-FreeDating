@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "513902444069",
+    "project_id": "freedatingapp-66476",
+    "storage_bucket": "freedatingapp-66476.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513902444069:android:23d940693dafbd427c49cc",
+        "android_client_info": {
+          "package_name": "cat.smartcoding.mendez.freedating"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513902444069-f0t0m0tkjr8ahavvmagog4d03nm77ctk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt6Hu4-ydy7YX7ONNvemXGp9Njup63-BA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513902444069-f0t0m0tkjr8ahavvmagog4d03nm77ctk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
