@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_gallery">
+
+    <!-- Gallery parejas sugeridas del dia -->
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="cat.smartcoding.mendez.freedating.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <!-- Search busqueda de parejas -->
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="cat.smartcoding.mendez.freedating.ui.search.SearchFragment"
+        android:label="@string/menu_search"
+        tools:layout="@layout/search_fragment" />
+
+    <!-- Profiles historico de visitas -->
+    <fragment
+        android:id="@+id/nav_profiles"
+        android:name="cat.smartcoding.mendez.freedating.ui.profiles.ProfilesFragment"
+        android:label="@string/menu_profiles"
+        tools:layout="@layout/profiles_fragment_item_list" />
+
+    <!-- Mailbox buzon, historico de mensajes -->
+    <fragment
+        android:id="@+id/nav_mailbox"
+        android:name="cat.smartcoding.mendez.freedating.ui.mailbox.MailBoxFragment"
+        android:label="@string/menu_mailbox"
+        tools:layout="@layout/mail_box_fragment" />
+
+    <!-- Profile mi perfil fotos sobre mi, ocupacion, altura, peso, origen, fumador, pro niños -->
+    <fragment
+        android:id="@+id/nav_user"
+        android:name="cat.smartcoding.mendez.freedating.ui.user.UserFragment"
+        android:label="@string/menu_user"
+        tools:layout="@layout/user_fragment" />
+
+    <!-- Settings App settings -->
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="cat.smartcoding.mendez.freedating.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings" />
+
+    <!-- Help -->
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="cat.smartcoding.mendez.freedating.ui.help.HelpFragment"
+        android:label="@string/menu_help" />
+
+    <!-- Legal warning -->
+    <fragment
+        android:id="@+id/nav_legal_warning"
+        android:name="cat.smartcoding.mendez.freedating.ui.warning.LegalWarningFragment"
+        android:label="@string/menu_legal_warning" />
+
+    <!-- terms & conditions -->
+    <fragment
+        android:id="@+id/nav_terms_and_conditions"
+        android:name="cat.smartcoding.mendez.freedating.ui.terms.TermsAndConditionsFragment"
+        android:label="@string/menu_terms_and_conditions" />
+
+    <!-- data privacy -->
+    <fragment
+        android:id="@+id/nav_data_pivacy"
+        android:name="cat.smartcoding.mendez.freedating.ui.privacy.DataPrivacyFragment"
+        android:label="@string/menu_close_session" />
+
+</navigation>

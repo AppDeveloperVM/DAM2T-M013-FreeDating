@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:id="@+id/group1" android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_gallery" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_menu_search"
+            android:title="@string/menu_search" />
+        <item
+            android:id="@+id/nav_profiles"
+            android:icon="@drawable/ic_menu_profiles"
+            android:title="@string/menu_profiles" />
+        <item
+            android:id="@+id/nav_mailbox"
+            android:icon="@drawable/ic_menu_mail_box"
+            android:title="@string/menu_mailbox" />
+        <item
+            android:id="@+id/nav_user"
+            android:icon="@drawable/ic_menu_user"
+            android:title="@string/menu_user" />
+
+    </group>
+
+    <group android:id="@+id/group2" android:checkableBehavior="single" >
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_preferences"
+            android:title="@string/menu_settings" />
+
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_menu_help"
+            android:title="@string/menu_help" />
+
+        <item
+            android:id="@+id/nav_terms_and_conditions"
+            android:icon="@drawable/ic_menu_terms_and_conditions"
+            android:title="@string/menu_terms_and_conditions" />
+
+        <item
+            android:id="@+id/exit"
+            android:icon="@drawable/ic_menu_exit"
+            android:title="@string/menu_close_session" />
+
+    </group>
+
+</menu>

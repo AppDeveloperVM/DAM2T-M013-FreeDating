@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_gallery"
+        android:icon="@drawable/ic_menu_camera"
+        android:title="@string/menu_gallery" />
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_menu_search"
+        android:title="@string/menu_search" />
+    <item
+        android:id="@+id/nav_profiles"
+        android:icon="@drawable/ic_menu_profiles"
+        android:title="@string/menu_profiles" />
+    <item
+        android:id="@+id/nav_mailbox"
+        android:icon="@drawable/ic_menu_mail_box"
+        android:title="@string/menu_mailbox" />
+    <item
+        android:id="@+id/nav_user"
+        android:icon="@drawable/ic_menu_user"
+        android:title="@string/menu_user" />
+
+</menu>
