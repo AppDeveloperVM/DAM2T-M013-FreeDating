@@ -98,11 +98,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
             android:onClick="@{() -> viewModel.onLoginButton()}"
-            android:text="LOGIN"
+            android:text="login"
             app:layout_constraintEnd_toEndOf="@+id/tv_loginTitle"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="@+id/tv_loginTitle"
             app:layout_constraintTop_toBottomOf="@+id/et_loginPassword" />
+
+        <Button
+            android:id="@+id/btn_loginRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="REGISTER"
+            app:layout_constraintEnd_toEndOf="@+id/btn_loginLogin"
+            app:layout_constraintStart_toStartOf="@+id/btn_loginLogin"
+            app:layout_constraintTop_toBottomOf="@+id/btn_loginLogin" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
