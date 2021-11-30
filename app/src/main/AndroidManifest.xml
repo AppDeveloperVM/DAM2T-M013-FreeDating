@@ -9,11 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FreeDating">
-        <activity
-            android:name=".ui.viewer.TabActivity"
-            android:exported="true"
-            android:label="@string/title_activity_tab"
-            android:theme="@style/Theme.FreeDating.NoActionBar" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

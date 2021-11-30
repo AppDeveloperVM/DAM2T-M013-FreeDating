@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.databinding.FragmentLoginBinding
 
 
-class LoginFragment : Fragment() {
+class LoginFragment : FragmentActivity() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
 
@@ -25,7 +27,10 @@ class LoginFragment : Fragment() {
             container,
             false
         )
-        viewModel = binding.viewModel!!;
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java];
+        binding.viewModel = viewModel;
+        //binding.lifecycleOwner = viewLife
+
 
         return binding.root;
     }
