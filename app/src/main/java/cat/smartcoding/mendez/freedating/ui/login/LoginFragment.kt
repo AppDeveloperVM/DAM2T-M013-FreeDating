@@ -3,6 +3,7 @@ package cat.smartcoding.mendez.freedating.ui.login
 import android.content.ContentValues.TAG
 import androidx.fragment.app.Fragment
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +11,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 
 class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var auth: FirebaseAuth;
 
 
 
@@ -33,15 +38,41 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java];
         binding.viewModel = viewModel;
         binding.lifecycleOwner = viewLifecycleOwner;
+        auth = viewModel.getAuth();
 
 
         return binding.root;
     }
 
 
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+            reload();
+        }
+
+    }
+
+
+
+    private fun reload() {
+        val currentUser = auth.currentUser
+        updateUI(currentUser)
+    }
+    private fun updateUI(user: FirebaseUser?) {
+        if( user != null ) {
+
+            NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionLoginFragmentToNavGallery());
+
+        }else{
+            //COSAS QUE HACER PARA CUANDO NO ESTE LOGEADO
+        }
+    }
+
     private fun signIn(email: String, password: String) {
         // [START sign_in_with_email]
-        val auth = viewModel.getAuth();
+
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener() { task ->
                 //btAutentifica.isEnabled = true

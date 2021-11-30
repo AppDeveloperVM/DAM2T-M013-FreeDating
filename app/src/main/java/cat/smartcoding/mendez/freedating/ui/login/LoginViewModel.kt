@@ -16,25 +16,7 @@ class LoginViewModel : ViewModel() {
         auth = FirebaseAuth.getInstance();
     }
 
-    fun onStart(){
 
-        val currentUser = auth.currentUser
-
-        if(currentUser != null){
-            reload();
-        }
-    }
-    private fun reload() {
-        val currentUser = auth.currentUser
-        updateUI(currentUser)
-    }
-    private fun updateUI(user: FirebaseUser?) {
-        if( user != null ) {
-
-        }else{
-
-        }
-    }
 
 
     fun getAuth(): FirebaseAuth{
