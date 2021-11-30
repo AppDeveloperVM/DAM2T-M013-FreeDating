@@ -5,10 +5,12 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.22407407407407406" />
         <entry key="..\:/Android_Studio_Proyectos/ENTREGAS/FreeDating-firebase/app/src/main/res/layout/fragment_data_privacy.xml" value="0.259375" />
+        <entry key="..\:/Android_Studio_Proyectos/ENTREGAS/FreeDating-firebase/app/src/main/res/layout/fragment_gallery.xml" value="0.13385416666666666" />
         <entry key="..\:/Android_Studio_Proyectos/ENTREGAS/FreeDating-firebase/app/src/main/res/layout/fragment_login.xml" value="0.259375" />
-        <entry key="..\:/Users/VicM/AndroidStudioProjects/DAM2T-M013-FreeDating/app/src/main/res/layout/activity_main.xml" value="0.146875" />
-        <entry key="..\:/Users/VicM/AndroidStudioProjects/DAM2T-M013-FreeDating/app/src/main/res/layout/content_main.xml" value="0.146875" />
-        <entry key="..\:/Users/VicM/AndroidStudioProjects/DAM2T-M013-FreeDating/app/src/main/res/layout/fragment_login.xml" value="0.2537037037037037" />
+        <entry key="..\:/Android_Studio_Proyectos/ENTREGAS/FreeDating-firebase/app/src/main/res/layout/register_fragment.xml" value="0.259375" />
+        <entry key="..\:/Android_Studio_Proyectos/ENTREGAS/FreeDating-firebase/app/src/main/res/menu/activity_main_drawer.xml" value="0.259375" />
+        <entry key="..\:/Android_Studio_Proyectos/ENTREGAS/FreeDating-firebase/app/src/main/res/menu/bottom_nav.xml" value="0.259375" />
+        <entry key="..\:/Android_Studio_Proyectos/ENTREGAS/FreeDating-firebase/app/src/main/res/menu/main.xml" value="0.259375" />
         <entry key="app/src/main/res/drawable-v21/ic_menu_camera.xml" value="0.28020833333333334" />
         <entry key="app/src/main/res/drawable-v21/ic_menu_slideshow.xml" value="0.23958333333333334" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.26614583333333336" />

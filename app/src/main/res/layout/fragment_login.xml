@@ -45,6 +45,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="24dp"
             android:ems="10"
+            android:hint="example@domain.com"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.019"
@@ -68,6 +69,7 @@
             android:layout_marginStart="11dp"
             android:layout_marginTop="28dp"
             android:ems="10"
+            android:hint="******"
             android:inputType="textPassword"
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +91,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="232dp" />
+
+        <Button
+            android:id="@+id/btn_loginLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:onClick="@{() -> viewModel.onLoginButton()}"
+            android:text="LOGIN"
+            app:layout_constraintEnd_toEndOf="@+id/tv_loginTitle"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/tv_loginTitle"
+            app:layout_constraintTop_toBottomOf="@+id/et_loginPassword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
