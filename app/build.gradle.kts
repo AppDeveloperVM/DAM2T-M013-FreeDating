@@ -104,21 +104,21 @@ dependencies {
     // Firebase Functions: a serverless framework that lets you automatically run backend code in response to events triggered by Firebase
     implementation("com.google.firebase:firebase-functions-ktx")
     // Firebase Cloud Messaging: a cross-platform messaging solution that lets you reliably send messages at no cost.
-    implementation("com.google.firebase:firebase-messaging-ktx")
+    //implementation("com.google.firebase:firebase-messaging-ktx")
     // Firebase Storage: dependencia to store files in Firebase, images...
-    implementation("com.google.firebase:firebase-storage-ktx")
+    //implementation("com.google.firebase:firebase-storage-ktx")
     // Firebase Crashlytics: is a lightweight, realtime crash reporter that helps you track, prioritize, and fix stability issues
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    //implementation("com.google.firebase:firebase-crashlytics-ktx")
     // Firebase Dynamic Links: users can be taken directly to the linked content in your native app
-    implementation("com.google.firebase:firebase-dynamic-links-ktx")
+    //implementation("com.google.firebase:firebase-dynamic-links-ktx")
     // Firebase In Apps Messaging: helps you engage your app's active users by sending them targeted, contextual messages that encourage them to use key app features
-    implementation("com.google.firebase:firebase-inappmessaging-display-ktx")
+    //implementation("com.google.firebase:firebase-inappmessaging-display-ktx")
     // Firebase ML: Machine learning
-    implementation("com.google.firebase:firebase-ml-modeldownloader-ktx")
+    //implementation("com.google.firebase:firebase-ml-modeldownloader-ktx")
     // Firebase Performance Monitoring: is a service that helps you to gain insight into the performance characteristics of your Apple, Android, and web apps
-    implementation("com.google.firebase:firebase-perf-ktx")
+    //implementation("com.google.firebase:firebase-perf-ktx")
     // Firebase Config: is a cloud service that lets you change the behavior and appearance of your app without requiring users to download an app update.
-    implementation("com.google.firebase:firebase-config-ktx")
+    //implementation("com.google.firebase:firebase-config-ktx")
     implementation("com.google.android.gms:play-services-auth:19.2.0")
     implementation("com.facebook.android:facebook-android-sdk:[4,5]")
 
