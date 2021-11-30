@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_profiles,
                 R.id.nav_mailbox,
                 R.id.nav_user,
+                R.id.nav_login
 //                R.id.nav_settings
             ), drawerLayout
         )

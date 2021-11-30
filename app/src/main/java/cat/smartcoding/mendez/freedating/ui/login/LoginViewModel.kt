@@ -12,9 +12,9 @@ class LoginViewModel : ViewModel() {
 
 
 
-    public fun onCreateView(){
-        auth = FirebaseAuth.getInstance();
-    }
+    /*public fun onCreateView(){
+
+    }*/
 
 
 
@@ -26,6 +26,6 @@ class LoginViewModel : ViewModel() {
 
 
     init {
-        Log.i("GameViewModel", "GameViewModel created!")
+        auth = FirebaseAuth.getInstance();
     }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/nav_login">
 
     <!-- Gallery parejas sugeridas del dia -->
     <fragment
@@ -70,7 +70,7 @@
         android:name="cat.smartcoding.mendez.freedating.ui.privacy.DataPrivacyFragment"
         android:label="@string/menu_close_session" />
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/nav_login"
         android:name="cat.smartcoding.mendez.freedating.ui.login.LoginFragment"
         android:label="LoginFragment" >
         <action
