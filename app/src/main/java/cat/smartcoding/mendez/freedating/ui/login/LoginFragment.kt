@@ -43,12 +43,6 @@ class LoginFragment : Fragment() {
         auth = viewModel.getAuth();
         auth.signOut();
 
-
-
-
-
-
-
         viewModel.onLogin.observe(viewLifecycleOwner,{
             if(viewModel.onLogin.value == true){
 
@@ -57,8 +51,9 @@ class LoginFragment : Fragment() {
             }
         })
 
-
-
+        binding.btnLoginRegister.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionNavLoginToNavRegister());
+        }
 
 
 
@@ -95,11 +90,15 @@ class LoginFragment : Fragment() {
 
     private fun signIn(email: String, password: String) {
         // [START sign_in_with_email]
+        binding.btnLoginLogin.isEnabled = false; //added
+        binding.btnLoginRegister.isEnabled = false; //added
 
         if(email != "" && password != "") {
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener() { task ->
+                    binding.btnLoginLogin.isEnabled = true; //added
+                    binding.btnLoginRegister.isEnabled = true; //added
                     //btAutentifica.isEnabled = true
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information

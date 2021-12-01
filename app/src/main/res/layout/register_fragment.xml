@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="cat.smartcoding.mendez.freedating.ui.login.RegisterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,11 +31,10 @@
             android:id="@+id/tv_registerEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="48dp"
             android:text="Email"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_registerTitle" />
+            app:layout_constraintStart_toStartOf="@+id/tv_registerName"
+            app:layout_constraintTop_toBottomOf="@+id/tv_registerName" />
 
         <TextView
             android:id="@+id/tv_registerPassword"
@@ -54,7 +55,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_registerPassword" />
 
         <EditText
-            android:id="@+id/et_registerName"
+            android:id="@+id/et_registerEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="52dp"
@@ -96,6 +97,27 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_registerConfirmPassword" />
+
+        <TextView
+            android:id="@+id/tv_registerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="48dp"
+            android:text="Name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_registerTitle" />
+
+        <EditText
+            android:id="@+id/et_registerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:ems="10"
+            android:hint="John Doe"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_registerName"
+            app:layout_constraintStart_toEndOf="@+id/tv_registerName" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

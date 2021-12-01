@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout;
-    private lateinit var bottomNavigationView: BottomNavigationView;
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         // Bottom navigation setup
-        bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+        val bottomNavigationView = binding.appBarMain.content.bottomNavigationView;
         bottomNavigationView.setupWithNavController(navController)
 
     }
