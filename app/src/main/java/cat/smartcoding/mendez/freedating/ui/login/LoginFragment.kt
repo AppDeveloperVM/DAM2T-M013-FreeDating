@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import cat.smartcoding.mendez.freedating.MainActivity
 import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -43,6 +44,11 @@ class LoginFragment : Fragment() {
         auth.signOut();
 
 
+
+
+
+
+
         viewModel.onLogin.observe(viewLifecycleOwner,{
             if(viewModel.onLogin.value == true){
 
@@ -53,12 +59,16 @@ class LoginFragment : Fragment() {
 
 
 
+
+
+
         return binding.root;
     }
 
 
     override fun onStart() {
         super.onStart()
+        (activity as MainActivity).setDrawer_Locked();
         val currentUser = auth.currentUser
         if(currentUser != null){
             reload();
@@ -75,6 +85,7 @@ class LoginFragment : Fragment() {
     private fun updateUI(user: FirebaseUser?) {
         if( user != null ) {
 
+            (activity as MainActivity).setDrawer_Unlocked();
             NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionLoginFragmentToNavGallery());
 
         }else{
