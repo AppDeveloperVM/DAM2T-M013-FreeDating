@@ -44,11 +44,12 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
             android:ems="10"
             android:hint="example@domain.com"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.019"
+            app:layout_constraintHorizontal_bias="0.009"
             app:layout_constraintStart_toEndOf="@+id/tv_loginEmail"
             app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
@@ -56,25 +57,26 @@
             android:id="@+id/tv_loginPasswd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="27dp"
+            android:layout_marginStart="36dp"
             android:labelFor="@id/et_loginPassword"
             android:text="Password"
             app:layout_constraintBottom_toBottomOf="@+id/et_loginPassword"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_loginEmail"
+            app:layout_constraintVertical_bias="1.0" />
 
         <EditText
             android:id="@+id/et_loginPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="44dp"
             android:ems="10"
             android:hint="******"
             android:inputType="textPassword"
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tv_loginPasswd"
+            app:layout_constraintHorizontal_bias="0.009"
+            app:layout_constraintStart_toStartOf="@+id/et_loginEmail"
             app:layout_constraintTop_toBottomOf="@+id/et_loginEmail" />
 
         <androidx.constraintlayout.widget.Barrier

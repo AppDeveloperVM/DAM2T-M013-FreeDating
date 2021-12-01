@@ -48,7 +48,7 @@ Rewarded video Ads
 And much more …
 *
 * */
-class MainActivity : AppCompatActivity(), MyDrawerController  {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -115,16 +115,16 @@ class MainActivity : AppCompatActivity(), MyDrawerController  {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    override fun setDrawer_Locked() {
+    fun setDrawer_Locked() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         binding.appBarMain.fab.hide();
-        bottomNavigationView.visibility = View.GONE;
+        binding.appBarMain.content.bottomNavigationView.visibility = View.GONE;
     }
-
-    override fun setDrawer_Unlocked() {
+    fun setDrawer_Unlocked() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         binding.appBarMain.fab.show();
-        bottomNavigationView.visibility = View.VISIBLE;
+        binding.appBarMain.content.bottomNavigationView.visibility = View.VISIBLE;
+
     }
 
 

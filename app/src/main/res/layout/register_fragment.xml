@@ -19,11 +19,83 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="164dp"
             android:text="REGISTER"
-            android:textSize="20sp"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_registerEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="36dp"
+            android:text="Email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_registerTitle" />
+
+        <TextView
+            android:id="@+id/tv_registerPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="Password"
+            app:layout_constraintStart_toStartOf="@+id/tv_registerEmail"
+            app:layout_constraintTop_toBottomOf="@+id/tv_registerEmail" />
+
+        <TextView
+            android:id="@+id/tv_registerConfirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="Confirm \nPassword"
+            app:layout_constraintStart_toStartOf="@+id/tv_registerPassword"
+            app:layout_constraintTop_toBottomOf="@+id/tv_registerPassword" />
+
+        <EditText
+            android:id="@+id/et_registerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:ems="10"
+            android:hint="example@domain.com"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_registerEmail"
+            app:layout_constraintStart_toEndOf="@+id/tv_registerEmail" />
+
+        <EditText
+            android:id="@+id/et_registerPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:ems="10"
+            android:hint="******"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_registerPassword"
+            app:layout_constraintStart_toEndOf="@+id/tv_registerPassword" />
+
+        <EditText
+            android:id="@+id/et_registerConfirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:ems="10"
+            android:hint="******"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_registerConfirmPassword"
+            app:layout_constraintStart_toEndOf="@+id/tv_registerConfirmPassword" />
+
+        <Button
+            android:id="@+id/btn_registerRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:text="SING UP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_registerConfirmPassword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
