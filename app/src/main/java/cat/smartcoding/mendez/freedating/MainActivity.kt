@@ -1,8 +1,10 @@
 package cat.smartcoding.mendez.freedating
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity(), MyDrawerController  {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout;
+    private lateinit var bottomNavigationView: BottomNavigationView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,8 +90,9 @@ class MainActivity : AppCompatActivity(), MyDrawerController  {
         navView.setupWithNavController(navController)
 
         // Bottom navigation setup
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+        bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
         bottomNavigationView.setupWithNavController(navController)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -113,10 +117,14 @@ class MainActivity : AppCompatActivity(), MyDrawerController  {
 
     override fun setDrawer_Locked() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        binding.appBarMain.fab.hide();
+        bottomNavigationView.visibility = View.GONE;
     }
 
     override fun setDrawer_Unlocked() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        binding.appBarMain.fab.show();
+        bottomNavigationView.visibility = View.VISIBLE;
     }
 
 
