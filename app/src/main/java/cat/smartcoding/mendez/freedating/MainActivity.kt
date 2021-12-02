@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -124,6 +126,19 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         binding.appBarMain.fab.show();
         binding.appBarMain.content.bottomNavigationView.visibility = View.VISIBLE;
+
+    }
+
+
+    fun changeUserMenuData(name: String, email: String){
+        (binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_mainMenuName)).text = name
+        (binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_mainMenuEmail)).text = email
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
 
     }
 

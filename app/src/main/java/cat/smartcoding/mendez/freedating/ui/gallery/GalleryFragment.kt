@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cat.smartcoding.mendez.freedating.MainActivity
 import cat.smartcoding.mendez.freedating.R
+import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.FragmentGalleryBinding
 
 class GalleryFragment : Fragment() {
@@ -37,6 +38,14 @@ class GalleryFragment : Fragment() {
         galleryViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+
+
+        Utils.obtenirDadesUsuari(activity as MainActivity);
+
+
+
+
 
         return root
     }

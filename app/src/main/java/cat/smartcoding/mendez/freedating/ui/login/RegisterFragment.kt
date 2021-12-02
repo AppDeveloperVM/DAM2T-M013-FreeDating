@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import cat.smartcoding.mendez.freedating.MainActivity
 import cat.smartcoding.mendez.freedating.R
+import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.RegisterFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -87,6 +88,7 @@ class RegisterFragment : Fragment() {
         if( user != null ) {
 
             (activity as MainActivity).setDrawer_Unlocked();
+
             NavHostFragment.findNavController(this).navigate(RegisterFragmentDirections.actionNavRegisterToNavGallery());
 
         }else{
@@ -133,7 +135,7 @@ class RegisterFragment : Fragment() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid;
         if( uid == null ) return
 
-        val user =  newUser( name, email);
+        val user = Utils.Companion.newUser(name, email);
 
         val myRef = database.getReference("/users/$uid")
         myRef.setValue(user)
@@ -141,9 +143,9 @@ class RegisterFragment : Fragment() {
 
 
 
-    data class newUser(
+    /*data class newUser(
         var name: String? = "",
         var email: String? = "",
-    )
+    )*/
 
 }
