@@ -72,7 +72,7 @@
             android:layout_marginStart="24dp"
             android:ems="10"
             android:hint="******"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             app:layout_constraintBottom_toBottomOf="@+id/tv_registerPassword"
             app:layout_constraintStart_toEndOf="@+id/tv_registerPassword" />
 
@@ -83,7 +83,7 @@
             android:layout_marginStart="24dp"
             android:ems="10"
             android:hint="******"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             app:layout_constraintBottom_toBottomOf="@+id/tv_registerConfirmPassword"
             app:layout_constraintStart_toEndOf="@+id/tv_registerConfirmPassword" />
 
@@ -93,6 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
             android:text="SING UP"
+            android:onClick="@{() -> viewModel.onRegisterButton()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"

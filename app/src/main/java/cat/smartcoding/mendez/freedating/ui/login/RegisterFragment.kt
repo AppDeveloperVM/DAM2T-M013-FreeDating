@@ -35,7 +35,7 @@ class RegisterFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_login,
+            R.layout.register_fragment,
             container,
             false
         )
@@ -93,22 +93,33 @@ class RegisterFragment : Fragment() {
     private fun createAccount(email: String, password: String, passwordConfirm: String, name: String) {
         // [START create_user_with_email]
         binding.btnRegisterRegister.isEnabled = false;
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener() { task ->
-                binding.btnRegisterRegister.isEnabled = true;
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(context, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
-                    updateUI(null)
+
+        if(password == passwordConfirm) {
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener() { task ->
+                    binding.btnRegisterRegister.isEnabled = true;
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "createUserWithEmail:success")
+                        val user = auth.currentUser
+                        updateUI(user)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            context, "Creation failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        updateUI(null)
+                    }
                 }
-            }
+        }else{
+            binding.btnRegisterRegister.isEnabled = true;
+            Toast.makeText(
+                context, "Passwords do not match.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
         // [END create_user_with_email]
     }
 
