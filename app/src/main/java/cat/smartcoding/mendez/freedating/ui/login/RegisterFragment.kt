@@ -17,6 +17,7 @@ import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.databinding.RegisterFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 
 class RegisterFragment : Fragment() {
 
@@ -25,6 +26,7 @@ class RegisterFragment : Fragment() {
     private lateinit var viewModel: RegisterViewModel
     private lateinit var binding: RegisterFragmentBinding
     private lateinit var auth: FirebaseAuth;
+    private lateinit var database: FirebaseDatabase;
 
 
 
@@ -40,6 +42,8 @@ class RegisterFragment : Fragment() {
             false
         )
         viewModel = ViewModelProvider(this)[RegisterViewModel::class.java];
+        database = FirebaseDatabase.getInstance("https://freedatingapp-66476-default-rtdb.europe-west1.firebasedatabase.app/")
+
         binding.viewModel = viewModel;
         binding.lifecycleOwner = viewLifecycleOwner;
         auth = viewModel.getAuth();
@@ -101,6 +105,8 @@ class RegisterFragment : Fragment() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
+
+                        saveUser(name, email);
                         val user = auth.currentUser
                         updateUI(user)
                     } else {
@@ -122,5 +128,22 @@ class RegisterFragment : Fragment() {
         }
         // [END create_user_with_email]
     }
+
+    fun saveUser(name: String, email: String){
+        val uid = FirebaseAuth.getInstance().currentUser?.uid;
+        if( uid == null ) return
+
+        val user =  newUser( name, email);
+
+        val myRef = database.getReference("/users/$uid")
+        myRef.setValue(user)
+    }
+
+
+
+    data class newUser(
+        var name: String? = "",
+        var email: String? = "",
+    )
 
 }
