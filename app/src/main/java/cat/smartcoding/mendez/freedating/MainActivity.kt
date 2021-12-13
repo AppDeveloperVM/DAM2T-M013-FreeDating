@@ -1,12 +1,21 @@
 package cat.smartcoding.mendez.freedating
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.opengl.Visibility
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -18,6 +27,16 @@ import cat.smartcoding.mendez.freedating.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import android.content.res.AssetFileDescriptor
+import com.google.firebase.auth.FirebaseAuth
+import java.io.ByteArrayOutputStream
+
 
 /*
 *
@@ -55,7 +74,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout;
-
+    private lateinit var storageRef: StorageReference;
+    private lateinit var auth: FirebaseAuth;
+    private val REQUEST_IMAGE_CAPTURE = 1
+    lateinit var currentPhotoPath: String
+    lateinit var currentPhotoName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,12 +86,49 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        storageRef =FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
+
         setSupportActionBar(binding.appBarMain.toolbar)
+        val builder: AlertDialog.Builder? = this.let {
+            AlertDialog.Builder(it)
+        }
+        builder?.setMessage("Selecciona el método")?.setPositiveButton("Camara",
+            DialogInterface.OnClickListener { dialog, id ->
+                openCamera();
+            })?.setNegativeButton("Galeria",
+                DialogInterface.OnClickListener { dialog, id ->
+
+                })
+        val dialog: AlertDialog? = builder?.create()
+        builder?.create();
 
         binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            builder?.show()
+            /*if(!snackOn){
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }else{
+                builder?.create();
+            }*/
+
         }
+
+
+
+        /*override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            return activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.setTitle("Selecciona un metodo")
+                    .setItems(
+                        arrayOf("a","b"),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            // The 'which' argument contains the index position
+                            // of the selected item
+                        })
+                builder.create()
+            } ?: throw IllegalStateException("Activity cannot be null")
+        }*/
+
 
 
 
@@ -116,6 +176,76 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
+
+    private fun openCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "cat.smartcoding.mendez.freedating",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, 1)
+
+                    //ESPERAR A QUE LA IMAGEN SE GUARDE
+
+
+
+                    var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI)
+                    var outba = ByteArrayOutputStream();
+                    bitmaps.compress(Bitmap.CompressFormat.JPEG,
+                        70,
+                        outba);
+                    val dadesbytes = outba.toByteArray();
+                    val pathReferenceSubir = storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$currentPhotoName")
+                    pathReferenceSubir.putBytes(dadesbytes);
+                    //val pathReference = storageRef.child("images/nuevoFondo.jpg")
+                    //val fileDescriptor = applicationContext.contentResolver.openAssetFileDescriptor(photoURI, "r")
+                    //val fileSize = fileDescriptor!!.length
+                    //val im = pathReference.getBytes(fileSize);
+                }
+            }
+        }
+    }
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val prefix = "JPEG_${timeStamp}_";
+        return File.createTempFile(
+            prefix, /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+            currentPhotoName = prefix + ".jpg"
+        }
+    }
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data.extras.get("data") as Bitmap
+            imageView.setImageBitmap(imageBitmap)
+        }
+    }*/
+
+
+
 
     fun setDrawer_Locked() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

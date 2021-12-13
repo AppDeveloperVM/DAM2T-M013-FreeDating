@@ -77,6 +77,7 @@ dependencies {
     // RxJava2
     implementation("io.reactivex.rxjava2:rxjava:$rxJavaVersion")
     implementation("io.reactivex.rxjava2:rxandroid:$rxJavaVersion")
+    implementation("com.google.firebase:firebase-storage-ktx:20.0.0")
 
     //Firebase
     /*implementation ("com.google.firebase:firebase-bom:29.0.0")

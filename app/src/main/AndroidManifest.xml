@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cat.smartcoding.mendez.freedating">
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,11 +17,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FreeDating">
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="cat.smartcoding.mendez.freedating"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.FreeDating.NoActionBar">
+            android:theme="@style/Theme.FreeDating.NoActionBar"
+            android:authorities="cat.smartcoding.mendez.freedating"
+            android:grantUriPermissions="true">
+
+            <!--<meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/> -->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
