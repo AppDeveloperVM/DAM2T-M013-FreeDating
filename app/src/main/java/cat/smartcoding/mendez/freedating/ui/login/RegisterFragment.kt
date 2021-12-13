@@ -88,7 +88,7 @@ class RegisterFragment : Fragment() {
         if( user != null ) {
 
             (activity as MainActivity).setDrawer_Unlocked();
-
+            Utils.obtenirDadesUsuari(activity as MainActivity);
             NavHostFragment.findNavController(this).navigate(RegisterFragmentDirections.actionNavRegisterToNavGallery());
 
         }else{

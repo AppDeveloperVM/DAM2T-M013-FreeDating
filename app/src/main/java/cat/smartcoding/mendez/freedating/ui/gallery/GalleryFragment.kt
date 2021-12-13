@@ -41,7 +41,7 @@ class GalleryFragment : Fragment() {
 
 
 
-        Utils.obtenirDadesUsuari(activity as MainActivity);
+        //Utils.obtenirDadesUsuari(activity as MainActivity);
 
 
 

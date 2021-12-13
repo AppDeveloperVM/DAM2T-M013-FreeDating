@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import cat.smartcoding.mendez.freedating.MainActivity
 import cat.smartcoding.mendez.freedating.R
+import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -41,7 +42,8 @@ class LoginFragment : Fragment() {
         binding.viewModel = viewModel;
         binding.lifecycleOwner = viewLifecycleOwner;
         auth = viewModel.getAuth();
-        auth.signOut();
+
+        auth.signOut();//QUITAR PARA EL FINAL
 
         viewModel.onLogin.observe(viewLifecycleOwner,{
             if(viewModel.onLogin.value == true){
@@ -81,6 +83,7 @@ class LoginFragment : Fragment() {
         if( user != null ) {
 
             (activity as MainActivity).setDrawer_Unlocked();
+            Utils.obtenirDadesUsuari(activity as MainActivity);
             NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionLoginFragmentToNavGallery());
 
         }else{
