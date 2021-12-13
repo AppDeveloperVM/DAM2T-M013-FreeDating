@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     private val REQUEST_IMAGE_CAPTURE = 1
     lateinit var currentPhotoPath: String
     lateinit var currentPhotoName: String
+    lateinit var currentPhotoURI: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -198,6 +199,7 @@ class MainActivity : AppCompatActivity() {
                         "cat.smartcoding.mendez.freedating",
                         it
                     )
+                    currentPhotoURI = photoURI;
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, 1)
 
@@ -205,14 +207,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-                    var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI)
-                    var outba = ByteArrayOutputStream();
-                    bitmaps.compress(Bitmap.CompressFormat.JPEG,
-                        70,
-                        outba);
-                    val dadesbytes = outba.toByteArray();
-                    val pathReferenceSubir = storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$currentPhotoName")
-                    pathReferenceSubir.putBytes(dadesbytes);
+
                     //val pathReference = storageRef.child("images/nuevoFondo.jpg")
                     //val fileDescriptor = applicationContext.contentResolver.openAssetFileDescriptor(photoURI, "r")
                     //val fileSize = fileDescriptor!!.length
@@ -220,6 +215,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
     @Throws(IOException::class)
     private fun createImageFile(): File {
@@ -237,6 +233,23 @@ class MainActivity : AppCompatActivity() {
             currentPhotoName = prefix + ".jpg"
         }
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+        var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI)
+        var outba = ByteArrayOutputStream();
+        bitmaps.compress(Bitmap.CompressFormat.JPEG,
+            70,
+            outba);
+        val dadesbytes = outba.toByteArray();
+        //val pathReferenceSubir = storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$currentPhotoName")
+        val pathReferenceSubir = storageRef.child("imagesnova/nova.jpg")
+        pathReferenceSubir.putBytes(dadesbytes);
+
+    }
+
     /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data.extras.get("data") as Bitmap
