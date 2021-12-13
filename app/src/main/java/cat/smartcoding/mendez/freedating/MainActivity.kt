@@ -1,5 +1,6 @@
 package cat.smartcoding.mendez.freedating
 
+import android.R.attr
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -34,8 +35,17 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import android.content.res.AssetFileDescriptor
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import java.io.ByteArrayOutputStream
+import androidx.core.app.ActivityCompat.startActivityForResult
+import android.R.attr.data
+
+
+
+
+
+
 
 
 /*
@@ -98,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 openCamera();
             })?.setNegativeButton("Galeria",
                 DialogInterface.OnClickListener { dialog, id ->
-
+                    openGallery();
                 })
         val dialog: AlertDialog? = builder?.create()
         builder?.create();
@@ -179,6 +189,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun openGallery(){
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+
+        startActivityForResult(gallery, 2)
+    }
 
     private fun openCamera() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
@@ -236,17 +251,38 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == 1){
+            super.onActivityResult(requestCode, resultCode, data)
+            var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI)
+            var outba = ByteArrayOutputStream();
+            bitmaps.compress(Bitmap.CompressFormat.JPEG,
+                70,
+                outba);
+            val dadesbytes = outba.toByteArray();
+            Log.i("AYUDA",FirebaseAuth.getInstance().currentUser?.uid.toString());
+            val pathReferenceSubir = storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$currentPhotoName")
+            //val pathReferenceSubir = storageRef.child("imagesnova/nova.jpg")
+            pathReferenceSubir.putBytes(dadesbytes);
+        }else if(requestCode == 2){
 
-        super.onActivityResult(requestCode, resultCode, data)
-        var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI)
-        var outba = ByteArrayOutputStream();
-        bitmaps.compress(Bitmap.CompressFormat.JPEG,
-            70,
-            outba);
-        val dadesbytes = outba.toByteArray();
-        //val pathReferenceSubir = storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$currentPhotoName")
-        val pathReferenceSubir = storageRef.child("imagesnova/nova.jpg")
-        pathReferenceSubir.putBytes(dadesbytes);
+            var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data?.getData())
+            var outba = ByteArrayOutputStream();
+
+            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            val prefix = "JPEG_${timeStamp}_";
+
+            bitmaps.compress(Bitmap.CompressFormat.JPEG,
+                70,
+                outba);
+            val dadesbytes = outba.toByteArray();
+            Log.i("AYUDA",FirebaseAuth.getInstance().currentUser?.uid.toString());
+            val pathReferenceSubir = storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$prefix.jpg")
+            //val pathReferenceSubir = storageRef.child("imagesnova/nova.jpg")
+            pathReferenceSubir.putBytes(dadesbytes);
+
+        }
+
+
 
     }
 
