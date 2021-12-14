@@ -18,7 +18,7 @@ import cat.smartcoding.mendez.freedating.ui.profiles.placeholder.PlaceholderCont
  */
 class ProfilesFragment : Fragment() {
 
-    private var columnCount = 1
+    private var columnCount = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
