@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cat.smartcoding.mendez.freedating.*
@@ -56,7 +57,7 @@ class GalleryFragment : Fragment() {
         )
 
         recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+        recyclerView.layoutManager = GridLayoutManager(recyclerView.context,3)
         recyclerView.setHasFixedSize(true)
 
         newArrayList = arrayListOf<GalleryItem>()

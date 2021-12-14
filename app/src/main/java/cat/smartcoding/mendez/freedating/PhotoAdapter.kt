@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cat.smartcoding.mendez.freedating.PhotoAdapter.*
-import com.google.android.material.imageview.ShapeableImageView
 import java.util.ArrayList
 import android.widget.ImageView
 
@@ -31,7 +30,7 @@ class PhotoAdapter(private val gItems: ArrayList<GalleryItem>) :
 
     class MyViewHolder(itemView :View) : RecyclerView.ViewHolder(itemView){
         val titleImage : ImageView = itemView.findViewById(R.id.image)
-        val name : TextView = itemView.findViewById(R.id.title)
+        val name : TextView = itemView.findViewById(R.id.name)
     }
 
 }
