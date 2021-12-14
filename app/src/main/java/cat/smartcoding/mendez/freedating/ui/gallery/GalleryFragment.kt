@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import cat.smartcoding.mendez.freedating.MainActivity
-import cat.smartcoding.mendez.freedating.R
-import cat.smartcoding.mendez.freedating.Utils
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import cat.smartcoding.mendez.freedating.*
 import cat.smartcoding.mendez.freedating.databinding.FragmentGalleryBinding
 
 class GalleryFragment : Fragment() {
@@ -22,6 +22,11 @@ class GalleryFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var newArrayList : ArrayList<GalleryItem>
+    lateinit var imageId : Array<Int>
+    lateinit var name : Array<String>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,20 +39,43 @@ class GalleryFragment : Fragment() {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textGallery
-        galleryViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        //fill recyclerView gallery
+        imageId = arrayOf(
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round
+        )
+        name = arrayOf(
+            "aaaaa",
+            "bbbbb",
+            "ccccc",
+            "ddddd",
+            "eeeee"
+        )
 
+        recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+        recyclerView.setHasFixedSize(true)
+
+        newArrayList = arrayListOf<GalleryItem>()
+        getUserdata()
 
 
         //Utils.obtenirDadesUsuari(activity as MainActivity);
 
-
-
-
-
         return root
+    }
+
+    private fun getUserdata() {
+
+        for(i in imageId.indices){
+            val images = GalleryItem(imageId[i],name[i])
+            newArrayList.add(images)
+        }
+
+        recyclerView.adapter = PhotoAdapter(newArrayList)
     }
 
     override fun onDestroyView() {
