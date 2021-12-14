@@ -2,6 +2,7 @@ package cat.smartcoding.mendez.freedating.ui.gallery
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cat.smartcoding.mendez.freedating.*
 import cat.smartcoding.mendez.freedating.databinding.FragmentGalleryBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.database.DatabaseReference
+
+
+
 
 class GalleryFragment : Fragment() {
 
@@ -25,6 +34,7 @@ class GalleryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var storageRef: StorageReference;
     private lateinit var newArrayList : ArrayList<GalleryItem>
     lateinit var imageId : Array<Int>
     lateinit var name : Array<String>
@@ -39,6 +49,18 @@ class GalleryFragment : Fragment() {
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        //-------Firebase STORAGE - GET IMAGES--------
+        storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        Log.i("AYUDA", FirebaseAuth.getInstance().currentUser?.uid.toString());
+
+        val databaseReference: DatabaseReference = firebaseDatabase.reference
+        val pathReference = storageRef.child("/users/.../images/")
+        val getImage = databaseReference.child("image")
+
+        /*getImage.addListenerForSingleValueEvent(new ValueEventListener() {
+        })*/
 
         //fill recyclerView gallery
         imageId = arrayOf(
@@ -70,6 +92,8 @@ class GalleryFragment : Fragment() {
     }
 
     private fun getUserdata() {
+
+
 
         for(i in imageId.indices){
             val images = GalleryItem(imageId[i],name[i])
