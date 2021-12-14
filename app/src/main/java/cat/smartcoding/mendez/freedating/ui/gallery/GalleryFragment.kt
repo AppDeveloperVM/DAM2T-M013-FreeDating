@@ -49,11 +49,11 @@ class GalleryFragment : Fragment() {
             R.drawable.ic_launcher_round
         )
         name = arrayOf(
-            "aaaaa",
-            "bbbbb",
-            "ccccc",
-            "ddddd",
-            "eeeee"
+            "Juan",
+            "Manuel",
+            "Rocío",
+            "Jenny",
+            "Cristina"
         )
 
         recyclerView = binding.recyclerView
