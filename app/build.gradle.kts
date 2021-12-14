@@ -104,6 +104,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     // Firebase Functions: a serverless framework that lets you automatically run backend code in response to events triggered by Firebase
     implementation("com.google.firebase:firebase-functions-ktx")
+
+    implementation("androidx.gridlayout:gridlayout:1.0.0")
     // Firebase Cloud Messaging: a cross-platform messaging solution that lets you reliably send messages at no cost.
     //implementation("com.google.firebase:firebase-messaging-ktx")
     // Firebase Storage: dependencia to store files in Firebase, images...
