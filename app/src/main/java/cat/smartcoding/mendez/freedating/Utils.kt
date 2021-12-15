@@ -48,8 +48,11 @@ class Utils {
 
 
         data class newUser(
-            var name: String? = "",
-            var email: String? = "",
+            var name: String = "",
+            var email: String = "",
+            var gender: String = "",
+            var age: Int = -1,
+            var location: String? = "",
         )
 
     }

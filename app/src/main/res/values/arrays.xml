@@ -9,4 +9,12 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+    
+    <string-array name="gender_entries">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others...</item>
+    </string-array>
+
+    
 </resources>

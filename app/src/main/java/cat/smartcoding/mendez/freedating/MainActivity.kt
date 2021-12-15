@@ -40,12 +40,7 @@ import com.google.firebase.auth.FirebaseAuth
 import java.io.ByteArrayOutputStream
 import androidx.core.app.ActivityCompat.startActivityForResult
 import android.R.attr.data
-
-
-
-
-
-
+import android.widget.Toast
 
 
 /*
@@ -97,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        storageRef =FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
+        storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
 
         setSupportActionBar(binding.appBarMain.toolbar)
         val builder: AlertDialog.Builder? = this.let {
@@ -107,38 +102,21 @@ class MainActivity : AppCompatActivity() {
             DialogInterface.OnClickListener { dialog, id ->
                 openCamera();
             })?.setNegativeButton("Galeria",
-                DialogInterface.OnClickListener { dialog, id ->
-                    openGallery();
-                })
+            DialogInterface.OnClickListener { dialog, id ->
+                openGallery();
+            })
         val dialog: AlertDialog? = builder?.create()
         builder?.create();
 
         binding.appBarMain.fab.setOnClickListener { view ->
             builder?.show()
-            /*if(!snackOn){
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-            }else{
-                builder?.create();
-            }*/
+
 
         }
 
 
 
-        /*override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            return activity?.let {
-                val builder = AlertDialog.Builder(it)
-                builder.setTitle("Selecciona un metodo")
-                    .setItems(
-                        arrayOf("a","b"),
-                        DialogInterface.OnClickListener { dialog, which ->
-                            // The 'which' argument contains the index position
-                            // of the selected item
-                        })
-                builder.create()
-            } ?: throw IllegalStateException("Activity cannot be null")
-        }*/
+
 
 
 
@@ -189,7 +167,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun openGallery(){
+    private fun openGallery() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
 
         startActivityForResult(gallery, 2)
@@ -218,20 +196,12 @@ class MainActivity : AppCompatActivity() {
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, 1)
 
-                    //ESPERAR A QUE LA IMAGEN SE GUARDE
-
-
-
-
-                    //val pathReference = storageRef.child("images/nuevoFondo.jpg")
-                    //val fileDescriptor = applicationContext.contentResolver.openAssetFileDescriptor(photoURI, "r")
-                    //val fileSize = fileDescriptor!!.length
-                    //val im = pathReference.getBytes(fileSize);
                 }
             }
         }
 
     }
+
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
@@ -251,37 +221,71 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == 1){
-            super.onActivityResult(requestCode, resultCode, data)
-            var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI)
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+
+
+            //if (File(currentPhotoPath).exists()) {
+            var bitmaps =
+                MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI)
             var outba = ByteArrayOutputStream();
-            bitmaps.compress(Bitmap.CompressFormat.JPEG,
-                70,
-                outba);
-            val dadesbytes = outba.toByteArray();
-            Log.i("AYUDA",FirebaseAuth.getInstance().currentUser?.uid.toString());
-            val pathReferenceSubir = storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$currentPhotoName")
-            //val pathReferenceSubir = storageRef.child("imagesnova/nova.jpg")
-            pathReferenceSubir.putBytes(dadesbytes);
-        }else if(requestCode == 2){
+            if (bitmaps != null) {
+                bitmaps.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    70,
+                    outba
+                );
+                val dadesbytes = outba.toByteArray();
 
-            var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data?.getData())
-            var outba = ByteArrayOutputStream();
+                val pathReferenceSubir =
+                    storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$currentPhotoName")
 
-            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-            val prefix = "JPEG_${timeStamp}_";
+                pathReferenceSubir.putBytes(dadesbytes);
 
-            bitmaps.compress(Bitmap.CompressFormat.JPEG,
-                70,
-                outba);
-            val dadesbytes = outba.toByteArray();
-            Log.i("AYUDA",FirebaseAuth.getInstance().currentUser?.uid.toString());
-            val pathReferenceSubir = storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$prefix.jpg")
-            //val pathReferenceSubir = storageRef.child("imagesnova/nova.jpg")
-            pathReferenceSubir.putBytes(dadesbytes);
+                Toast.makeText(
+                    applicationContext,
+                    "Has been uploaded successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+                Toast.makeText(applicationContext, "Operation was canceled", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        } else if (requestCode == 2) {
+
+            if (data != null) {
+
+                var bitmaps =
+                    MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData())
+                var outba = ByteArrayOutputStream();
+
+                val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                val prefix = "JPEG_${timeStamp}_";
+
+                bitmaps.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    70,
+                    outba
+                );
+                val dadesbytes = outba.toByteArray();
+
+                val pathReferenceSubir =
+                    storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/images/$prefix.jpg")
+                //val pathReferenceSubir = storageRef.child("imagesnova/nova.jpg")
+                pathReferenceSubir.putBytes(dadesbytes);
+                Toast.makeText(
+                    applicationContext,
+                    "Has been uploaded successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+                Toast.makeText(applicationContext, "Operation was canceled", Toast.LENGTH_SHORT)
+                    .show()
+            }
 
         }
-
 
 
     }
@@ -294,13 +298,12 @@ class MainActivity : AppCompatActivity() {
     }*/
 
 
-
-
     fun setDrawer_Locked() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         binding.appBarMain.fab.hide();
         binding.appBarMain.content.bottomNavigationView.visibility = View.GONE;
     }
+
     fun setDrawer_Unlocked() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         binding.appBarMain.fab.show();
@@ -309,9 +312,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun changeUserMenuData(name: String, email: String){
+    fun changeUserMenuData(name: String, email: String) {
         (binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_mainMenuName)).text = name
-        (binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_mainMenuEmail)).text = email
+        (binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_mainMenuEmail)).text =
+            email
     }
 
 
