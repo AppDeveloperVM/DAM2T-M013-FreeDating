@@ -1,6 +1,7 @@
 package cat.smartcoding.mendez.freedating.ui.login
 
 
+import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import cat.smartcoding.mendez.freedating.MainActivity
 import cat.smartcoding.mendez.freedating.R
@@ -31,6 +33,8 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var binding: RegisterFragmentBinding
     private lateinit var auth: FirebaseAuth;
     private lateinit var database: FirebaseDatabase;
+
+    private lateinit var gender: String;
 
 
 
@@ -67,6 +71,16 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
         })
 
+        /*binding.etRegisterAge.setOnClickListener {
+            showDatePickerDialog();
+        }*/
+        binding.etRegisterAge.setOnFocusChangeListener { v, hasFocus ->
+            if(hasFocus){
+                showDatePickerDialog();
+                v.clearFocus();
+            }
+        }
+
         val spinner: Spinner = binding.ddRegisterGender
         spinner.onItemSelectedListener = this
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -85,16 +99,28 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
-        //a
-
+        when(pos){
+            0 -> gender = "Male";
+            1 -> gender = "Female";
+            2 -> gender = "Other..."
+        }
+        Log.i("AYUDA", pos.toString());
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
         // Another interface callback
     }
 
+     fun showDatePickerDialog() {
+         val newFragment = Utils.DatePickerFragment.newInstance(DatePickerDialog.OnDateSetListener { _, year, month, day ->
+             // +1 because January is zero
+             val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
+             Log.i("AYUDA", selectedDate);
+             binding.etRegisterAge.setText(selectedDate)
+         })
+
+         newFragment.show(requireFragmentManager(), "datePicker")
+     }
 
     override fun onStart() {
         super.onStart()
@@ -163,11 +189,12 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val uid = FirebaseAuth.getInstance().currentUser?.uid;
         if( uid == null ) return
 
-        val user = Utils.Companion.newUser(name, email);
+        val user = Utils.Companion.newUser(name, email, gender);
 
         val myRef = database.getReference("/users/$uid")
         myRef.setValue(user)
     }
+
 
 
 

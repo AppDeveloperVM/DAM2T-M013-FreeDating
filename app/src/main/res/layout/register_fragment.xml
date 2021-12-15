@@ -34,8 +34,10 @@
             android:layout_marginBottom="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/linearLayout"
@@ -135,6 +137,25 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_registerGender"
                     app:layout_constraintStart_toStartOf="@+id/et_registerConfirmPassword" />
+
+                <TextView
+                    android:id="@+id/tv_registerAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:text="Birthdate"
+                    app:layout_constraintStart_toStartOf="@+id/tv_registerGender"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_registerGender" />
+
+                <EditText
+                    android:id="@+id/et_registerAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="01/01/1970"
+                    android:inputType="textPersonName"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_registerAge"
+                    app:layout_constraintStart_toStartOf="@+id/dd_registerGender" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
