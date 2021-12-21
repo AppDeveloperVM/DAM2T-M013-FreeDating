@@ -8,11 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import cat.smartcoding.mendez.freedating.GalleryItem
 import cat.smartcoding.mendez.freedating.PhotoAdapter
 import cat.smartcoding.mendez.freedating.R
-import cat.smartcoding.mendez.freedating.databinding.FragmentGalleryBinding
 import cat.smartcoding.mendez.freedating.databinding.ProfilesFragmentItemListBinding
+import cat.smartcoding.mendez.freedating.ui.ProfileItem
 import com.google.firebase.storage.StorageReference
 
 /**
@@ -27,7 +26,7 @@ class ProfilesFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var storageRef: StorageReference;
-    private lateinit var newArrayList : ArrayList<GalleryItem>
+    private lateinit var newArrayList : ArrayList<ProfileItem>
     lateinit var imageId : Array<Int>
     lateinit var name : Array<String>
 
@@ -74,7 +73,7 @@ class ProfilesFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                newArrayList = arrayListOf<GalleryItem>()
+                newArrayList = arrayListOf<ProfileItem>()
                 getUserdata()
             //adapter = ProfilesRecyclerViewAdapter(newArrayList)
             }
@@ -85,11 +84,11 @@ class ProfilesFragment : Fragment() {
     private fun getUserdata() {
 
         for(i in imageId.indices){
-            val images = GalleryItem(imageId[i],name[i])
+            val images = ProfileItem(imageId[i],name[i])
             newArrayList.add(images)
         }
 
-        recyclerView.adapter = PhotoAdapter(newArrayList)
+        recyclerView.adapter = ProfilesRecyclerViewAdapter(newArrayList)
     }
 
 }
