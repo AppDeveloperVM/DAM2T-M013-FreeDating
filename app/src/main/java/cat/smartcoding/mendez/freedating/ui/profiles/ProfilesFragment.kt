@@ -1,6 +1,5 @@
 package cat.smartcoding.mendez.freedating.ui.profiles
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -9,16 +8,28 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import cat.smartcoding.mendez.freedating.MainActivity
+import cat.smartcoding.mendez.freedating.GalleryItem
+import cat.smartcoding.mendez.freedating.PhotoAdapter
 import cat.smartcoding.mendez.freedating.R
-import cat.smartcoding.mendez.freedating.ui.profiles.placeholder.PlaceholderContent
+import cat.smartcoding.mendez.freedating.databinding.FragmentGalleryBinding
+import cat.smartcoding.mendez.freedating.databinding.ProfilesFragmentItemListBinding
+import com.google.firebase.storage.StorageReference
 
 /**
  * A fragment representing a list of Items.
  */
 class ProfilesFragment : Fragment() {
 
+    private var _binding: ProfilesFragmentItemListBinding? = null
+    private val binding get() = _binding!!
+
     private var columnCount = 3
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var storageRef: StorageReference;
+    private lateinit var newArrayList : ArrayList<GalleryItem>
+    lateinit var imageId : Array<Int>
+    lateinit var name : Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +43,29 @@ class ProfilesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.profiles_fragment_item_list, container, false)
+        //val view = inflater.inflate(R.layout.profiles_fragment_item_list, container, false)
+
+        _binding = ProfilesFragmentItemListBinding.inflate(inflater, container, false)
+        val view: View = binding.root
+
+        recyclerView = binding.list
+
+        //fill recyclerView gallery
+        imageId = arrayOf(
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round
+        )
+        name = arrayOf(
+            "Jonny",
+            "Manuel",
+            "Rocío",
+            "Jenny",
+            "Cristina"
+        )
+
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -41,24 +74,22 @@ class ProfilesFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = ProfilesRecyclerViewAdapter(PlaceholderContent.ITEMS)
+                newArrayList = arrayListOf<GalleryItem>()
+                getUserdata()
+            //adapter = ProfilesRecyclerViewAdapter(newArrayList)
             }
         }
         return view
     }
 
-//    companion object {
-//
-//        // TODO: Customize parameter argument names
-//        const val ARG_COLUMN_COUNT = "column-count"
-//
-//        // TODO: Customize parameter initialization
-//        @JvmStatic
-//        fun newInstance(columnCount: Int) =
-//            ProfilesFragment().apply {
-//                arguments = Bundle().apply {
-//                    putInt(ARG_COLUMN_COUNT, columnCount)
-//                }
-//            }
-//    }
+    private fun getUserdata() {
+
+        for(i in imageId.indices){
+            val images = GalleryItem(imageId[i],name[i])
+            newArrayList.add(images)
+        }
+
+        recyclerView.adapter = PhotoAdapter(newArrayList)
+    }
+
 }
