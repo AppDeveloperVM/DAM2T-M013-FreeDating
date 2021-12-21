@@ -93,10 +93,8 @@ class GalleryFragment : Fragment() {
 
     private fun getUserdata() {
 
-
-
         for(i in imageId.indices){
-            val images = GalleryItem(imageId[i],name[i])
+            val images = GalleryItem(imageId[i])
             newArrayList.add(images)
         }
 
