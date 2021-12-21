@@ -64,7 +64,9 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     binding.etRegisterEmail.text.toString(),
                     binding.etRegisterPassword.text.toString(),
                     binding.etRegisterConfirmPassword.text.toString(),
-                    binding.etRegisterName.text.toString()
+                    binding.etRegisterName.text.toString(),
+                    gender,
+                    binding.etRegisterAge.text.toString()
                     );
 
                 viewModel.onRegisterButtonComplete();
@@ -115,7 +117,6 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
          val newFragment = Utils.DatePickerFragment.newInstance(DatePickerDialog.OnDateSetListener { _, year, month, day ->
              // +1 because January is zero
              val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
-             Log.i("AYUDA", selectedDate);
              binding.etRegisterAge.setText(selectedDate)
          })
 
@@ -150,7 +151,7 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun createAccount(email: String, password: String, passwordConfirm: String, name: String) {
+    private fun createAccount(email: String, password: String, passwordConfirm: String, name: String, gender: String, birthdate: String) {
         // [START create_user_with_email]
         binding.btnRegisterRegister.isEnabled = false;
 
@@ -162,7 +163,7 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
 
-                        saveUser(name, email);
+                        saveUser(name, email, gender, birthdate);
                         val user = auth.currentUser
                         updateUI(user)
                     } else {
@@ -185,11 +186,11 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
         // [END create_user_with_email]
     }
 
-    fun saveUser(name: String, email: String){
+    fun saveUser(name: String, email: String, gender: String, birthdate: String){
         val uid = FirebaseAuth.getInstance().currentUser?.uid;
         if( uid == null ) return
 
-        val user = Utils.Companion.newUser(name, email, gender);
+        val user = Utils.Companion.newUser(name, email, gender, birthdate);
 
         val myRef = database.getReference("/users/$uid")
         myRef.setValue(user)
