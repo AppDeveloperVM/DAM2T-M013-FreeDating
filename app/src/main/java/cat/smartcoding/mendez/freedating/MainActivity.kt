@@ -41,6 +41,10 @@ import java.io.ByteArrayOutputStream
 import androidx.core.app.ActivityCompat.startActivityForResult
 import android.R.attr.data
 import android.widget.Toast
+import android.R.attr.bitmap
+
+
+
 
 
 /*
@@ -285,6 +289,37 @@ class MainActivity : AppCompatActivity() {
                     .show()
             }
 
+        }else if (requestCode == 3) {
+
+
+            //if (File(currentPhotoPath).exists()) {
+            var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI)
+            bitmaps = Bitmap.createScaledBitmap(bitmaps, 150, 150, false)
+
+            var outba = ByteArrayOutputStream();
+            if (bitmaps != null) {
+                bitmaps.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    70,
+                    outba
+                );
+                val dadesbytes = outba.toByteArray();
+
+                val pathReferenceSubir =
+                    storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/profile_pic.jpg")
+
+                pathReferenceSubir.putBytes(dadesbytes);
+
+                Toast.makeText(
+                    applicationContext,
+                    "Has been uploaded successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+                Toast.makeText(applicationContext, "Operation was canceled", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
 
 

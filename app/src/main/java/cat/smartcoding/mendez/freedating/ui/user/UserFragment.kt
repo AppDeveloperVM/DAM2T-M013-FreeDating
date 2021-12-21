@@ -18,44 +18,24 @@ class UserFragment : Fragment() {
     }
 
     private lateinit var viewModel: UserViewModel
-    private lateinit var bindingNormal: UserFragmentBinding
-    private lateinit var bindingEdit: ViewDataBinding
+    private lateinit var binding: UserFragmentBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bindingNormal = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.user_fragment,
             container,
             false
         )
-        bindingEdit = DataBindingUtil.inflate(
-            inflater,
-            R.layout.user_edit_fragment,
-            container,
-            false
-        )
+
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-
-
-
-
-
-        bindingNormal
-
-
         return inflater.inflate(R.layout.user_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
-        // TODO: Use the ViewModel
-
-
-
-    }
 
 }
