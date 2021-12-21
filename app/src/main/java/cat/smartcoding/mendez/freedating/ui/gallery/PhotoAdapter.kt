@@ -1,19 +1,20 @@
-package cat.smartcoding.mendez.freedating
+package cat.smartcoding.mendez.freedating.ui.gallery
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import cat.smartcoding.mendez.freedating.PhotoAdapter.*
+import cat.smartcoding.mendez.freedating.ui.gallery.PhotoAdapter.*
 import java.util.ArrayList
 import android.widget.ImageView
+import cat.smartcoding.mendez.freedating.R
 
 class PhotoAdapter(private val gItems: ArrayList<GalleryItem>) :
     RecyclerView.Adapter<MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.gallery_custom_view,
+        val itemView = LayoutInflater.from(parent.context).inflate(
+            R.layout.gallery_custom_view,
         parent,false)
         return MyViewHolder(itemView)
     }

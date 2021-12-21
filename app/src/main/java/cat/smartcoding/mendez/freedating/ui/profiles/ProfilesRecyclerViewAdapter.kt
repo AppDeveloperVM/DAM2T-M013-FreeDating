@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import cat.smartcoding.mendez.freedating.GalleryItem
 import cat.smartcoding.mendez.freedating.databinding.ProfilesFragmentItemBinding
-import cat.smartcoding.mendez.freedating.ui.ProfileItem
 
 class ProfilesRecyclerViewAdapter(
     private val values: ArrayList<ProfileItem>
