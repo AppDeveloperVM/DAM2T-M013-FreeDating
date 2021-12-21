@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import cat.smartcoding.mendez.freedating.PhotoAdapter
 import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.databinding.ProfilesFragmentItemListBinding
-import cat.smartcoding.mendez.freedating.ui.ProfileItem
 import com.google.firebase.storage.StorageReference
 
 /**
