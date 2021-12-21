@@ -10,7 +10,7 @@ import java.util.ArrayList
 import android.widget.ImageView
 
 class PhotoAdapter(private val gItems: ArrayList<GalleryItem>) :
-    RecyclerView.Adapter<PhotoAdapter.MyViewHolder>() {
+    RecyclerView.Adapter<MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.gallery_custom_view,
@@ -21,7 +21,6 @@ class PhotoAdapter(private val gItems: ArrayList<GalleryItem>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = gItems[position]
         holder.titleImage.setImageResource(currentItem.titleimage)
-        holder.name.text = currentItem.name
     }
 
     override fun getItemCount(): Int {
@@ -30,7 +29,6 @@ class PhotoAdapter(private val gItems: ArrayList<GalleryItem>) :
 
     class MyViewHolder(itemView :View) : RecyclerView.ViewHolder(itemView){
         val titleImage : ImageView = itemView.findViewById(R.id.image)
-        val name : TextView = itemView.findViewById(R.id.name)
     }
 
 }
