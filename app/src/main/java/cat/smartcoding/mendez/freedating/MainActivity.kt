@@ -43,6 +43,7 @@ import android.R.attr.data
 import android.widget.Toast
 import android.R.attr.bitmap
 import android.widget.ImageView
+import androidx.navigation.Navigation
 
 
 /*
@@ -155,9 +156,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
 //        navController.navigateUp()
 //        navController.navigate()
+
+        val id = item.itemId
+
+        if(id == R.id.action_editprofile){
+            navController.navigate(R.id.nav_user_edit);
+        }
+
         return super.onOptionsItemSelected(item)
 //        when(item.itemId) {
 //        }

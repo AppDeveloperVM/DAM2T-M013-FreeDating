@@ -39,9 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="64dp"
-        app:srcCompat="@android:drawable/ic_dialog_info"
         android:layout_marginRight="@dimen/fab_margin"
-        android:contentDescription="TODO" />
+        android:layout_marginBottom="64dp"
+        android:contentDescription="TODO"
+        app:srcCompat="@drawable/ic_menu_camera" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
