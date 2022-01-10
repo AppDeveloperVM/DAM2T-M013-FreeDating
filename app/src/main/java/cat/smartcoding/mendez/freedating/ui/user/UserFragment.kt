@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.Utils
+import cat.smartcoding.mendez.freedating.Utils.Companion.obtenirFotos
 import cat.smartcoding.mendez.freedating.databinding.UserFragmentBinding
 import cat.smartcoding.mendez.freedating.ui.gallery.GalleryItem
 import cat.smartcoding.mendez.freedating.ui.gallery.PhotoAdapter
@@ -25,7 +26,6 @@ class UserFragment : Fragment() {
     private lateinit var viewModel: UserViewModel
     public lateinit var binding: UserFragmentBinding
     private lateinit var recyclerView: RecyclerView
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

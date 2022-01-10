@@ -3,12 +3,15 @@ package cat.smartcoding.mendez.freedating
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.ContentValues
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import cat.smartcoding.mendez.freedating.ui.gallery.GalleryFragment
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -16,6 +19,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -52,12 +57,52 @@ class Utils {
             })
         }
 
+        fun obtenirFotos(fragment: Fragment): Unit? {
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            if( uid == null ) return null
+
+            //images
+            val myRef = database.getReference("/users/$uid")
+            var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
+            val pathReference = storageRef.child( "/users/$uid/images/")
+            val im = pathReference.getBytes(50000)
+
+            im.addOnSuccessListener {
+                var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
+
+                (fragment as UserFragment)
+                fragment.binding.iwUserProfile.setImageBitmap(bitmap)
+
+                //setImageBitmap(bitmap)
+
+            }.addOnFailureListener {
+            }
+
+            return null;
+        }
+
+
         fun obtenirMainUserProfile(fragment: Fragment): Unit?{
             val uid = FirebaseAuth.getInstance().currentUser?.uid
             if( uid == null ) return null
             val myRef = database.getReference("/users/$uid")
 
+            //images
+            var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
+            // sustituir img hardcodeada por img de perfil
+            val pathReference = storageRef.child( "/users/$uid/images/JPEG_20211213_204507_.jpg")
+            val im = pathReference.getBytes(50000)
 
+            im.addOnSuccessListener {
+                var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
+
+                (fragment as UserFragment)
+                fragment.binding.iwUserProfile.setImageBitmap(bitmap)
+
+                //setImageBitmap(bitmap)
+
+            }.addOnFailureListener {
+            }
 
             myRef.addValueEventListener(object: ValueEventListener {
 
@@ -67,6 +112,9 @@ class Utils {
 
                     (fragment as UserFragment)
                     fragment.binding.tvUserName.text = value?.name;
+                    /*fragment.binding.iwUserProfile.setImageResource(
+                        R.drawable.ic_launcher_round
+                    )*/
                     fragment.binding.tvUserAge.text = value?.birthdate;
                     fragment.binding.tvUserGender.text = value?.gender;
                     fragment.binding.tvUserLocation.text = if (value?.location != "") value?.location else "Not specify";
