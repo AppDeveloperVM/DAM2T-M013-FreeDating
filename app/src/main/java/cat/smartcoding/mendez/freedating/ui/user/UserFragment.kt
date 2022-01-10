@@ -11,6 +11,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cat.smartcoding.mendez.freedating.R
+import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.UserFragmentBinding
 import cat.smartcoding.mendez.freedating.ui.gallery.GalleryItem
 import cat.smartcoding.mendez.freedating.ui.gallery.PhotoAdapter
@@ -22,7 +23,7 @@ class UserFragment : Fragment() {
     }
 
     private lateinit var viewModel: UserViewModel
-    private lateinit var binding: UserFragmentBinding
+    public lateinit var binding: UserFragmentBinding
     private lateinit var recyclerView: RecyclerView
 
 
@@ -40,6 +41,10 @@ class UserFragment : Fragment() {
         recyclerView = binding.rvUsergallery;
         recyclerView.layoutManager = GridLayoutManager(recyclerView.context,3)
         recyclerView.setHasFixedSize(true)
+
+        binding.tvUserAge
+
+        Utils.obtenirMainUserProfile(this);
 
         getUserdata();
 

@@ -190,7 +190,7 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val uid = FirebaseAuth.getInstance().currentUser?.uid;
         if( uid == null ) return
 
-        val user = Utils.Companion.newUser(name, email, gender, birthdate);
+        val user = Utils.Companion.User(name, email, gender, birthdate);
 
         val myRef = database.getReference("/users/$uid")
         myRef.setValue(user)

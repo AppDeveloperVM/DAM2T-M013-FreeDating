@@ -42,9 +42,7 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import android.R.attr.data
 import android.widget.Toast
 import android.R.attr.bitmap
-
-
-
+import android.widget.ImageView
 
 
 /*
@@ -347,10 +345,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun changeUserMenuData(name: String, email: String) {
+    fun changeUserMenuData(name: String, email: String, image: String = "") {
         (binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_mainMenuName)).text = name
         (binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_mainMenuEmail)).text =
             email
+        if(image != ""){
+            //(binding.navView.getHeaderView(0).findViewById<ImageView>(R.id.iv_mainMenuImage)).
+        }
     }
 
 
