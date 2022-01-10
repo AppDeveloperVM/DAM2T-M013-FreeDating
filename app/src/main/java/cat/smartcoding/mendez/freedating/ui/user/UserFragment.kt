@@ -8,8 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.databinding.UserFragmentBinding
+import cat.smartcoding.mendez.freedating.ui.gallery.GalleryItem
+import cat.smartcoding.mendez.freedating.ui.gallery.PhotoAdapter
 
 class UserFragment : Fragment() {
 
@@ -19,6 +23,7 @@ class UserFragment : Fragment() {
 
     private lateinit var viewModel: UserViewModel
     private lateinit var binding: UserFragmentBinding
+    private lateinit var recyclerView: RecyclerView
 
 
     override fun onCreateView(
@@ -31,9 +36,42 @@ class UserFragment : Fragment() {
             container,
             false
         )
-
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        return inflater.inflate(R.layout.user_fragment, container, false)
+        recyclerView = binding.rvUsergallery;
+        recyclerView.layoutManager = GridLayoutManager(recyclerView.context,3)
+        recyclerView.setHasFixedSize(true)
+
+        getUserdata();
+
+
+        //return inflater.inflate(R.layout.user_fragment, container, false)
+        return binding.root;
+    }
+
+
+    private fun getUserdata() {
+        var imageId = arrayOf(
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round,
+            R.drawable.ic_launcher_round
+        )
+        var name = arrayOf(
+            "Juan",
+            "Manuel",
+            "Rocío",
+            "Jenny",
+            "Cristina"
+        )
+
+        var newArrayList = arrayListOf<UserPhotoGalleryItem>()
+        for(i in imageId.indices){
+            val images = UserPhotoGalleryItem(imageId[i])
+            newArrayList.add(images)
+        }
+
+        recyclerView.adapter = UserPhotoAdapter(newArrayList)
     }
 
 
