@@ -7,10 +7,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import cat.smartcoding.mendez.freedating.ui.gallery.GalleryFragment
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -71,7 +73,7 @@ class Utils {
                 var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
 
                 (fragment as UserFragment)
-                fragment.binding.iwUserProfile.setImageBitmap(bitmap)
+                fragment.binding.ivUserProfile.setImageBitmap(bitmap)
 
                 //setImageBitmap(bitmap)
 
@@ -84,6 +86,7 @@ class Utils {
 
         fun obtenirMainUserProfile(fragment: Fragment): Unit?{
             val uid = FirebaseAuth.getInstance().currentUser?.uid
+
             if( uid == null ) return null
             val myRef = database.getReference("/users/$uid")
 
@@ -97,7 +100,8 @@ class Utils {
                 var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
 
                 (fragment as UserFragment)
-                fragment.binding.iwUserProfile.setImageBitmap(bitmap)
+                //fragment.binding.iwUserProfile.setImageBitmap(bitmap)
+                fragment.binding.ivUserProfile.setImageBitmap(bitmap)
 
                 //setImageBitmap(bitmap)
 

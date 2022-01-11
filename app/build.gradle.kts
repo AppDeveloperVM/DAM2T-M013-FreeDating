@@ -125,5 +125,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:19.2.0")
     implementation("com.facebook.android:facebook-android-sdk:[4,5]")
 
+    implementation ("androidx.appcompat:appcompat:1.3.0-beta01")
+    implementation ("androidx.cardview:cardview:1.0.0")
+
 
 }
