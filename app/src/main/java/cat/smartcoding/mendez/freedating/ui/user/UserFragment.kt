@@ -42,9 +42,9 @@ class UserFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(recyclerView.context,3)
         recyclerView.setHasFixedSize(true)
 
-        binding.tvUserAge
+        //binding.tvUserAge
 
-        Utils.obtenirMainUserProfile(this);
+        Utils.obtenirMainUserProfile(this, 0);
 
         getUserdata();
 

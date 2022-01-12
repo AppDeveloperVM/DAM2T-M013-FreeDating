@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import cat.smartcoding.mendez.freedating.ui.gallery.GalleryFragment
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
+import cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -84,8 +85,10 @@ class Utils {
         }
 
 
-        fun obtenirMainUserProfile(fragment: Fragment): Unit?{
+        fun obtenirMainUserProfile(fragment: Fragment, type: Int = 0): Unit?{
             val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+
 
             if( uid == null ) return null
             val myRef = database.getReference("/users/$uid")
@@ -99,13 +102,15 @@ class Utils {
             im.addOnSuccessListener {
                 var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
 
-                (fragment as UserFragment)
-                //fragment.binding.iwUserProfile.setImageBitmap(bitmap)
-                fragment.binding.ivUserProfile.setImageBitmap(bitmap)
-                fragment.binding.iwUserBanner.setImageBitmap(bitmap)
-
-                //setImageBitmap(bitmap)
-
+                if (type == 0) {
+                    (fragment as UserFragment)
+                    fragment.binding.ivUserProfile.setImageBitmap(bitmap)
+                    fragment.binding.iwUserBanner.setImageBitmap(bitmap)
+                }else if (type == 1){
+                    (fragment as UserEditFragment)
+                    fragment.binding.ivUserEditProfile.setImageBitmap(bitmap)
+                    fragment.binding.iwUserEditBanner.setImageBitmap(bitmap)
+                }
             }.addOnFailureListener {
             }
 
@@ -115,16 +120,23 @@ class Utils {
 
                     val value = snapshot.getValue<User>()
 
-                    (fragment as UserFragment)
-                    fragment.binding.tvUserName.text = value?.name;
-                    /*fragment.binding.iwUserProfile.setImageResource(
-                        R.drawable.ic_launcher_round
-                    )*/
-                    fragment.binding.tvUserAge.text = value?.birthdate;
-                    fragment.binding.tvUserGender.text = value?.gender;
-                    fragment.binding.tvUserLocation.text = if (value?.location != "") value?.location else "Not specify";
-                    fragment.binding.tvUserOther.text = if (value?.otherThings != "") value?.otherThings else "Nothing more";
-                    fragment.binding.tvUserDescription.text = if (value?.description != "") value?.description else "This person has no description yet";
+                    if(type == 0){
+                        (fragment as UserFragment)
+                        fragment.binding.tvUserName.text = value?.name;
+                        fragment.binding.tvUserAge.text = value?.birthdate;
+                        fragment.binding.tvUserGender.text = value?.gender;
+                        fragment.binding.tvUserLocation.text = if (value?.location != "") value?.location else "Not specify";
+                        fragment.binding.tvUserOther.text = if (value?.otherThings != "") value?.otherThings else "Nothing more";
+                        fragment.binding.tvUserDescription.text = if (value?.description != "") value?.description else "This person has no description yet";
+                    }else if (type == 1){
+                        (fragment as UserEditFragment)
+                        fragment.binding.tvUserEditName.text = value?.name;
+                        fragment.binding.tvUserEditAge.text = value?.birthdate;
+                        fragment.binding.tvUserEditGender.text = value?.gender;
+                        fragment.binding.etUserEditLocation.hint = if (value?.location != "") value?.location else "Not specify";
+                        fragment.binding.etUserEditOtherthings.hint = if (value?.otherThings != "") value?.otherThings else "Nothing more";
+                        fragment.binding.etUserEditDescription.hint = if (value?.description != "") value?.description else "This person has no description yet";
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -133,6 +145,8 @@ class Utils {
             })
             return null;
         }
+
+
 
 
 
@@ -147,6 +161,12 @@ class Utils {
         )
 
     }
+
+
+
+
+
+
     class DatePickerFragment : DialogFragment() {
         private var listener: DatePickerDialog.OnDateSetListener? = null
 

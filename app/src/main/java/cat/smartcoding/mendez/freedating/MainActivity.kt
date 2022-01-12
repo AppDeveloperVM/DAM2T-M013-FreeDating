@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var currentPhotoName: String
     lateinit var currentPhotoURI: Uri
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
