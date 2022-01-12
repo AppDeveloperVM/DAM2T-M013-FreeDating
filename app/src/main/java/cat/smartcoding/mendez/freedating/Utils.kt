@@ -59,6 +59,32 @@ class Utils {
                 }
             })
         }
+        fun updateDadesUsuari(activity: MainActivity, fragment: UserEditFragment){
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            if( uid == null ) return
+
+
+
+            val myRef = database.getReference("/users/$uid")
+
+            var hashupdate: HashMap<String, Any> = HashMap();
+            if(fragment.binding.etUserEditLocation.text.toString() != ""){
+                hashupdate.set("location", fragment.binding.etUserEditLocation.text.toString());
+            }
+            if(fragment.binding.etUserEditOtherthings.text.toString() != ""){
+                hashupdate.set("otherThings", fragment.binding.etUserEditOtherthings.text.toString());
+            }
+            if(fragment.binding.etUserEditDescription.text.toString() != ""){
+                hashupdate.set("description", fragment.binding.etUserEditDescription.text.toString());
+            }
+
+
+
+            myRef.updateChildren(hashupdate);
+        }
+
+
+
 
         fun obtenirFotos(fragment: Fragment): Unit? {
             val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -158,6 +184,11 @@ class Utils {
             var location: String? = "",
             var otherThings : String? = "",
             var description : String?= ""
+        )
+        data class UpdateUser(
+            var location: String? = "",
+            var otherThings: String? = "",
+            var description: String? = ""
         )
 
     }

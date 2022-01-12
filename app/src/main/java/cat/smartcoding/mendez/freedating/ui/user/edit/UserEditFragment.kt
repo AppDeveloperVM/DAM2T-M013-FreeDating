@@ -15,8 +15,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
+import cat.smartcoding.mendez.freedating.MainActivity
 import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.Utils
+import cat.smartcoding.mendez.freedating.Utils.Companion.updateDadesUsuari
 import cat.smartcoding.mendez.freedating.databinding.UserEditFragmentBinding
 import com.google.android.gms.common.wrappers.Wrappers
 import java.io.File
@@ -53,6 +55,9 @@ class UserEditFragment : Fragment() {
         Utils.obtenirMainUserProfile(this, 1);
 
 
+        binding.btnUserEditSave.setOnClickListener {
+            updateDadesUsuari(activity as MainActivity, this);
+        }
 
 
 
@@ -71,6 +76,9 @@ class UserEditFragment : Fragment() {
             val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
             val storageDir: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
             val prefix = "JPEG_${timeStamp}_";
+
+
+
             return File.createTempFile(
                 prefix, /* prefix */
                 ".jpg", /* suffix */
@@ -85,16 +93,20 @@ class UserEditFragment : Fragment() {
 
         fun openGallery() {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-
+            Log.i("AYUDAME", "antes");
             startActivityForResult(gallery, 3)
         }
 
          fun openCamera() {
+
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                 // Ensure that there's a camera activity to handle the intent
+
                 takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
                     // Create the File where the photo should go
+
                     val photoFile: File? = try {
+
                         createImageFile()
                     } catch (ex: IOException) {
                         // Error occurred while creating the File
