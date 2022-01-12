@@ -162,9 +162,14 @@ class MainActivity : AppCompatActivity() {
 
         val id = item.itemId
 
-        if(id == R.id.action_editprofile){
-            navController.navigate(R.id.nav_user_edit);
+        when(id){
+            R.id.action_editprofile -> navController.navigate(R.id.nav_user_edit);
+            R.id.action_settings -> navController.navigate(R.id.nav_settings);
         }
+
+        /*if(id == R.id.action_editprofile){
+            navController.navigate(R.id.nav_user_edit);
+        }*/
 
         return super.onOptionsItemSelected(item)
 //        when(item.itemId) {
@@ -343,12 +348,14 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         binding.appBarMain.fab.hide();
         binding.appBarMain.content.bottomNavigationView.visibility = View.GONE;
+        supportActionBar?.hide();
     }
 
     fun setDrawer_Unlocked() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         binding.appBarMain.fab.show();
         binding.appBarMain.content.bottomNavigationView.visibility = View.VISIBLE;
+        supportActionBar?.show();
 
     }
 

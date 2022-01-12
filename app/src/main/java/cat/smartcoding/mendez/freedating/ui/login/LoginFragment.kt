@@ -43,7 +43,7 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner;
         auth = viewModel.getAuth();
 
-        //auth.signOut();//QUITAR PARA EL FINAL
+       // auth.signOut();//QUITAR PARA EL FINAL
 
         viewModel.onLogin.observe(viewLifecycleOwner,{
             if(viewModel.onLogin.value == true){

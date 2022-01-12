@@ -24,6 +24,7 @@ class RegisterViewModel : ViewModel() {
         return auth;
     }
     fun onRegisterButton(){
+
         _onRegister.value = true;
     }
     fun onRegisterButtonComplete(){
