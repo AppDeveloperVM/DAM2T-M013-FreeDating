@@ -102,6 +102,7 @@ class Utils {
                 (fragment as UserFragment)
                 //fragment.binding.iwUserProfile.setImageBitmap(bitmap)
                 fragment.binding.ivUserProfile.setImageBitmap(bitmap)
+                fragment.binding.iwUserBanner.setImageBitmap(bitmap)
 
                 //setImageBitmap(bitmap)
 
