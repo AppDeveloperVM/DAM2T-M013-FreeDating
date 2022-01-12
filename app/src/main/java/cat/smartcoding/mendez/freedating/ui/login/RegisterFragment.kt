@@ -60,14 +60,18 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel.onRegister.observe(viewLifecycleOwner,{
             if(viewModel.onRegister.value == true){
 
-                createAccount(
-                    binding.etRegisterEmail.text.toString(),
-                    binding.etRegisterPassword.text.toString(),
-                    binding.etRegisterConfirmPassword.text.toString(),
-                    binding.etRegisterName.text.toString(),
-                    gender,
-                    binding.etRegisterAge.text.toString()
+                if(binding.etRegisterAge.text.toString() != "") {
+                    createAccount(
+                        binding.etRegisterEmail.text.toString(),
+                        binding.etRegisterPassword.text.toString(),
+                        binding.etRegisterConfirmPassword.text.toString(),
+                        binding.etRegisterName.text.toString(),
+                        gender,
+                        binding.etRegisterAge.text.toString()
                     );
+                }else{
+                    Toast.makeText(context, "You need to fill all the fields", Toast.LENGTH_SHORT).show()
+                }
 
                 viewModel.onRegisterButtonComplete();
             }
