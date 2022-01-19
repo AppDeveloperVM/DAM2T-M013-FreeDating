@@ -365,6 +365,66 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Operation was canceled", Toast.LENGTH_SHORT)
                     .show()
             }
+        }else if (requestCode == 5){
+            var bitmaps =
+                MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI)
+            var outba = ByteArrayOutputStream();
+            if (bitmaps != null) {
+                bitmaps.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    70,
+                    outba
+                );
+                val dadesbytes = outba.toByteArray();
+
+                val pathReferenceSubir =
+                    storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/background_pic.jpg")
+
+                pathReferenceSubir.putBytes(dadesbytes);
+
+                Toast.makeText(
+                    applicationContext,
+                    "Has been uploaded successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+                Toast.makeText(applicationContext, "Operation was canceled", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }else if (requestCode == 6) {
+
+
+            if (data != null) {
+
+                var bitmaps =
+                    MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData())
+                var outba = ByteArrayOutputStream();
+
+                val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                val prefix = "JPEG_${timeStamp}_";
+
+                bitmaps.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    70,
+                    outba
+                );
+                val dadesbytes = outba.toByteArray();
+
+                val pathReferenceSubir =
+                    storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/background_pic.jpg")
+                //val pathReferenceSubir = storageRef.child("imagesnova/nova.jpg")
+                pathReferenceSubir.putBytes(dadesbytes);
+                Toast.makeText(
+                    applicationContext,
+                    "Has been uploaded successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+                Toast.makeText(applicationContext, "Operation was canceled", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
 
 
@@ -405,7 +465,6 @@ class MainActivity : AppCompatActivity() {
 
 
     fun updateUserPicProfile(){
-        Toast.makeText(baseContext, "PULSAO", Toast.LENGTH_SHORT).show()
         /*UPDATE PROFILE PIC*/
         val builderProfilePic: AlertDialog.Builder? = this.let {
             AlertDialog.Builder(it)
@@ -416,6 +475,24 @@ class MainActivity : AppCompatActivity() {
             })?.setNegativeButton("Galeria",
             DialogInterface.OnClickListener { dialog, id ->
                 openGallery(4);
+            })
+        val dialogProfilePic: AlertDialog? = builderProfilePic?.create()
+        builderProfilePic?.create();
+
+        builderProfilePic?.show();
+    }
+
+    fun updateUserBackgroundPicProfile(){
+        /*UPDATE PROFILE PIC*/
+        val builderProfilePic: AlertDialog.Builder? = this.let {
+            AlertDialog.Builder(it)
+        }
+        builderProfilePic?.setMessage("Selecciona el método")?.setPositiveButton("Camara",
+            DialogInterface.OnClickListener { dialog, id ->
+                openCamera(5);
+            })?.setNegativeButton("Galeria",
+            DialogInterface.OnClickListener { dialog, id ->
+                openGallery(6);
             })
         val dialogProfilePic: AlertDialog? = builderProfilePic?.create()
         builderProfilePic?.create();

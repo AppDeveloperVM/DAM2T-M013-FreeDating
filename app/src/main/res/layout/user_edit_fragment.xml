@@ -39,6 +39,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iw_user_edit_Banner" /> -->
 
+        <ImageView
+            android:id="@+id/iv_user_edit_background_button"
+            android:layout_width="0dp"
+            android:layout_height="170dp"
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            app:layout_constraintBottom_toBottomOf="@+id/iw_user_edit_Banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iw_user_edit_Banner"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_user_edit_profile"
             android:layout_width="95dp"

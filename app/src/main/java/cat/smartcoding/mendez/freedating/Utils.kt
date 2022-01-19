@@ -122,23 +122,38 @@ class Utils {
             //images
             var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
             // sustituir img hardcodeada por img de perfil
-            val pathReference = storageRef.child( "/users/$uid/profile_pic.jpg")
-            val im = pathReference.getBytes(5000000)
+            val profilePic = storageRef.child( "/users/$uid/profile_pic.jpg")
+            val pPim = profilePic.getBytes(5000000)
 
-            im.addOnSuccessListener {
+            val profileBackgroundPic = storageRef.child( "/users/$uid/background_pic.jpg")
+            val pBPim = profileBackgroundPic.getBytes(5000000)
+
+            pPim.addOnSuccessListener {
                 var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
 
                 if (type == 0) {
                     (fragment as UserFragment)
                     fragment.binding.ivUserProfile.setImageBitmap(bitmap)
-                    fragment.binding.iwUserBanner.setImageBitmap(bitmap)
                 }else if (type == 1){
                     (fragment as UserEditFragment)
                     fragment.binding.ivUserEditProfile.setImageBitmap(bitmap)
+                }
+            }.addOnFailureListener {
+            }
+
+            pBPim.addOnSuccessListener {
+                var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
+
+                if (type == 0) {
+                    (fragment as UserFragment)
+                    fragment.binding.iwUserBanner.setImageBitmap(bitmap)
+                }else if (type == 1){
+                    (fragment as UserEditFragment)
                     fragment.binding.iwUserEditBanner.setImageBitmap(bitmap)
                 }
             }.addOnFailureListener {
             }
+
 
             myRef.addValueEventListener(object: ValueEventListener {
 

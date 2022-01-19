@@ -62,7 +62,10 @@ class UserEditFragment : Fragment() {
 
         binding.ivUserEditButtonProfile.setOnClickListener {
             (activity as MainActivity).updateUserPicProfile();
-            Utils.obtenirMainUserProfile(this, 1)
+            //Utils.obtenirMainUserProfile(this, 1)
+        }
+        binding.ivUserEditBackgroundButton.setOnClickListener {
+            (activity as MainActivity).updateUserBackgroundPicProfile();
         }
 
 
