@@ -44,6 +44,7 @@ import android.widget.Toast
 import android.R.attr.bitmap
 import android.annotation.SuppressLint
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.Navigation
 import cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment
 
@@ -153,6 +154,21 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        val sharedp = getSharedPreferences("cat.smartcoding.mendez.freedating_preferences", MODE_PRIVATE);
+
+        if(sharedp.getBoolean("night_mode", false)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
