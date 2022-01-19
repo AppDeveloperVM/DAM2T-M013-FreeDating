@@ -1,42 +1,33 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory app:title="@string/sync_preferences">
 
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
-
         <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
+            app:defaultValue="All"
+            app:entries="@array/gender_entries"
+            app:entryValues="@array/gender_values"
+            app:key="gender"
+            app:title="Gender"
             app:useSimpleSummaryProvider="true" />
+        <SeekBarPreference
+            android:defaultValue="false"
+            android:max="99"
+            app:defaultValue="99"
+            app:key="age"
+            app:min="18"
+            app:showSeekBarValue="true"
+            app:title="Age">
 
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/sync_account">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+        </SeekBarPreference>
 
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/sync_system">
 
         <SwitchPreferenceCompat
-            app:key="notifications"
-            app:title="@string/sync_notification" />
+            app:key="night_mode"
+            app:title="Night Mode" />
 
     </PreferenceCategory>
 
