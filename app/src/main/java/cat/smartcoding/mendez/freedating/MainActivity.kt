@@ -42,8 +42,10 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import android.R.attr.data
 import android.widget.Toast
 import android.R.attr.bitmap
+import android.annotation.SuppressLint
 import android.widget.ImageView
 import androidx.navigation.Navigation
+import cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment
 
 
 /*
@@ -90,6 +92,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var currentPhotoURI: Uri
 
 
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -114,9 +117,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.appBarMain.fab.setOnClickListener { view ->
             builder?.show()
-
-
         }
+
+
+
 
 
 
@@ -183,13 +187,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun openGallery() {
+    private fun openGallery(code: Int = 2) {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
 
-        startActivityForResult(gallery, 2)
+        startActivityForResult(gallery, code)
     }
 
-    private fun openCamera() {
+    private fun openCamera(code: Int = 1) {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
@@ -210,7 +214,7 @@ class MainActivity : AppCompatActivity() {
                     )
                     currentPhotoURI = photoURI;
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, 1)
+                    startActivityForResult(takePictureIntent, code)
 
                 }
             }
@@ -301,13 +305,9 @@ class MainActivity : AppCompatActivity() {
                     .show()
             }
 
-        }else if (requestCode == 3) {
-
-
-            //if (File(currentPhotoPath).exists()) {
-            var bitmaps = MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI)
-            bitmaps = Bitmap.createScaledBitmap(bitmaps, 150, 150, false)
-
+        }else if (requestCode == 3){
+            var bitmaps =
+                MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI)
             var outba = ByteArrayOutputStream();
             if (bitmaps != null) {
                 bitmaps.compress(
@@ -322,6 +322,39 @@ class MainActivity : AppCompatActivity() {
 
                 pathReferenceSubir.putBytes(dadesbytes);
 
+                Toast.makeText(
+                    applicationContext,
+                    "Has been uploaded successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+                Toast.makeText(applicationContext, "Operation was canceled", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }else if (requestCode == 4) {
+
+
+            if (data != null) {
+
+                var bitmaps =
+                    MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData())
+                var outba = ByteArrayOutputStream();
+
+                val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                val prefix = "JPEG_${timeStamp}_";
+
+                bitmaps.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    70,
+                    outba
+                );
+                val dadesbytes = outba.toByteArray();
+
+                val pathReferenceSubir =
+                    storageRef.child("/users/${FirebaseAuth.getInstance().currentUser?.uid}/profile_pic.jpg")
+                //val pathReferenceSubir = storageRef.child("imagesnova/nova.jpg")
+                pathReferenceSubir.putBytes(dadesbytes);
                 Toast.makeText(
                     applicationContext,
                     "Has been uploaded successfully",
@@ -368,6 +401,26 @@ class MainActivity : AppCompatActivity() {
         if(image != ""){
             //(binding.navView.getHeaderView(0).findViewById<ImageView>(R.id.iv_mainMenuImage)).
         }
+    }
+
+
+    fun updateUserPicProfile(){
+        Toast.makeText(baseContext, "PULSAO", Toast.LENGTH_SHORT).show()
+        /*UPDATE PROFILE PIC*/
+        val builderProfilePic: AlertDialog.Builder? = this.let {
+            AlertDialog.Builder(it)
+        }
+        builderProfilePic?.setMessage("Selecciona el método")?.setPositiveButton("Camara",
+            DialogInterface.OnClickListener { dialog, id ->
+                openCamera(3);
+            })?.setNegativeButton("Galeria",
+            DialogInterface.OnClickListener { dialog, id ->
+                openGallery(4);
+            })
+        val dialogProfilePic: AlertDialog? = builderProfilePic?.create()
+        builderProfilePic?.create();
+
+        builderProfilePic?.show();
     }
 
 

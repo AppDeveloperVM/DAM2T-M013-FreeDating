@@ -122,8 +122,8 @@ class Utils {
             //images
             var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
             // sustituir img hardcodeada por img de perfil
-            val pathReference = storageRef.child( "/users/$uid/images/JPEG_20211213_204507_.jpg")
-            val im = pathReference.getBytes(50000)
+            val pathReference = storageRef.child( "/users/$uid/profile_pic.jpg")
+            val im = pathReference.getBytes(5000000)
 
             im.addOnSuccessListener {
                 var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )

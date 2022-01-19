@@ -33,7 +33,7 @@ class UserEditFragment : Fragment() {
     }
 
     private lateinit var viewModel: UserEditViewModel
-    lateinit var binding: UserEditFragmentBinding;
+    public lateinit var binding: UserEditFragmentBinding;
 
     private val REQUEST_IMAGE_CAPTURE = 1
     lateinit var currentPhotoPath: String
@@ -60,99 +60,12 @@ class UserEditFragment : Fragment() {
         }
 
 
-
-
-
-
-
-        //
-        //  OPEN CAMERA
-        //
-        //
-
-        @Throws(IOException::class)
-        fun createImageFile(): File {
-            // Create an image file name
-            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-            val storageDir: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-            val prefix = "JPEG_${timeStamp}_";
-
-
-
-            return File.createTempFile(
-                prefix, /* prefix */
-                ".jpg", /* suffix */
-                storageDir /* directory */
-            ).apply {
-                // Save a file: path for use with ACTION_VIEW intents
-                currentPhotoPath = absolutePath
-                currentPhotoName = prefix + ".jpg"
-            }
-        }
-
-
-        fun openGallery() {
-            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-            Log.i("AYUDAME", "antes");
-            startActivityForResult(gallery, 3)
-        }
-
-         fun openCamera() {
-
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                // Ensure that there's a camera activity to handle the intent
-
-                takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
-                    // Create the File where the photo should go
-
-                    val photoFile: File? = try {
-
-                        createImageFile()
-                    } catch (ex: IOException) {
-                        // Error occurred while creating the File
-
-                        null
-                    }
-                    // Continue only if the File was successfully created
-                    photoFile?.also {
-                        val photoURI: Uri = FileProvider.getUriForFile(
-                            requireActivity().applicationContext,
-                            "cat.smartcoding.mendez.freedating",
-                            it
-                        )
-                        currentPhotoURI = photoURI;
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                        startActivityForResult(takePictureIntent, 3)
-
-                    }
-                }
-            }
-
-        }
-
-
-        val builder: AlertDialog.Builder? = this.let {
-            AlertDialog.Builder(context)
-        }
-        builder?.setMessage("Selecciona el método")?.setPositiveButton("Camara",
-            DialogInterface.OnClickListener { dialog, id ->
-                openCamera();
-            })?.setNegativeButton("Galeria",
-            DialogInterface.OnClickListener { dialog, id ->
-                openGallery();
-            })
-        val dialog: AlertDialog? = builder?.create()
-        builder?.create();
-
         binding.ivUserEditButtonProfile.setOnClickListener {
-            builder?.show();
+            (activity as MainActivity).updateUserPicProfile();
+            Utils.obtenirMainUserProfile(this, 1)
         }
 
 
-        //
-        //  OPEN CAMERA
-        //
-        //
 
 
 
