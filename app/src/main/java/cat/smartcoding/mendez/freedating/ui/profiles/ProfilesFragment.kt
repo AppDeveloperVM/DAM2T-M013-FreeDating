@@ -74,6 +74,9 @@ class ProfilesFragment : Fragment() {
             "Cristina"
         )
 
+        Utils.obtenirProfiles(this)
+
+
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -83,7 +86,7 @@ class ProfilesFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
                 newArrayList = arrayListOf<ProfileItem>()
-                getUserdata()
+                //getUserdata()
             //adapter = ProfilesRecyclerViewAdapter(newArrayList)
             }
         }
@@ -92,12 +95,11 @@ class ProfilesFragment : Fragment() {
 
     fun getUserdata(profilesArrayList : ArrayList<ProfileItem>? = null) {
 
-        Utils.obtenirProfiles(this)
 
-        /*for(i in imageId.indices){
+        for(i in imageId.indices){
             val images = ProfileItem(imageId[i],name[i])
             newArrayList.add(images)
-        }*/
+        }
 
         //newArrayList
         recyclerView.adapter = profilesArrayList?.let { ProfilesRecyclerViewAdapter(it) }

@@ -1,8 +1,11 @@
 package cat.smartcoding.mendez.freedating
 
+import androidx.appcompat.app.AppCompatActivity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.ContentValues
+import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -13,10 +16,16 @@ import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesFragment
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesRecyclerViewAdapter
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
 import cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment
+import com.google.android.gms.tasks.Task
+import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
+import java.io.IOException
+import java.security.AccessController.getContext
+
+
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -26,6 +35,7 @@ class Utils {
         private var database = FirebaseDatabase.getInstance("https://freedatingapp-66476-default-rtdb.europe-west1.firebasedatabase.app/")
         private lateinit var dbref : DatabaseReference
         private var profilesArrayList : ArrayList<ProfileItem> = arrayListOf<ProfileItem>()
+        private lateinit var context : Context
 
         fun obtenirDadesUsuari(activity: MainActivity){
             val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -76,11 +86,12 @@ class Utils {
             myRef.updateChildren(hashupdate);
         }
 
-
-
         fun obtenirProfiles(fragment: ProfilesFragment): Unit?{
 
+            //context = fragment.requireContext()
+
             var arrayList : ArrayList<ProfileItem>? = null
+            var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
 
             dbref = database.getReference("users")
             dbref.addValueEventListener(object: ValueEventListener{
@@ -89,8 +100,25 @@ class Utils {
                     if(snapshot.exists()){
                         for(userSnapshot in snapshot.children){
 
+                            var info = userSnapshot.getValue(ProfileItem::class.java)
+                            val id =  userSnapshot.key
+
+                            val profilePic = storageRef.child( "/users/$id/profile_pic.jpg")
+                            val pPim = profilePic.getBytes(5000000)
+
+                            pPim.addOnSuccessListener {
+                                var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
+                                info?.image = 0
+
+                            }.addOnFailureListener {
+                                Log.d("Exception","Couldnt get Profile Pic!");
+                            }
+
+
                             val user = userSnapshot.getValue(ProfileItem::class.java)
-                            profilesArrayList.add(user!!)
+                            if (info != null) {
+                                profilesArrayList.add(user!!)
+                            }
                         }
                     }
 
@@ -113,10 +141,10 @@ class Utils {
         }
 
 
-        fun obtenirFotos(fragment: Fragment, id: String?): Unit? {
+        fun obtenirFotos(fragment: Fragment): Unit? {
 
             //uid = id ?: currentUser
-            var uid : String? = id ?: FirebaseAuth.getInstance().currentUser?.uid
+            var uid : String? = FirebaseAuth.getInstance().currentUser?.uid
 
             //user Data
             var myRef : DatabaseReference = if(uid == null)
@@ -242,7 +270,15 @@ class Utils {
         }
 
 
-
+        private fun assetsToBitmap(fileName:String): Bitmap?{
+            return try{
+                val stream = context?.assets?.open(fileName)
+                BitmapFactory.decodeStream(stream)
+            }catch (e: IOException){
+                e.printStackTrace()
+                null
+            }
+        }
 
 
         data class User(
@@ -252,7 +288,8 @@ class Utils {
             var birthdate: String = "",
             var location: String? = "",
             var otherThings : String? = "",
-            var description : String?= ""
+            var description : String?= "",
+            var image : String? = "" //assetsToBitmap("ic_launcher_background")
         )
         data class UpdateUser(
             var location: String? = "",

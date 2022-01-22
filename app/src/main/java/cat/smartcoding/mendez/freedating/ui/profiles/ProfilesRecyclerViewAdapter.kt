@@ -1,12 +1,19 @@
 package cat.smartcoding.mendez.freedating.ui.profiles
 
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
+import android.util.Base64.decode
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.ProfilesFragmentItemBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ProfilesRecyclerViewAdapter(
     private val values: ArrayList<ProfileItem>
@@ -25,9 +32,13 @@ class ProfilesRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //holder.setIsRecyclable(false);
+
         val currentItem = values[position]
-        val uri : Uri = Uri.parse(currentItem.image.toString())
-        holder.image.setImageURI(uri)  //currentItem.image
+        //val imageBytes = android.util.Base64.decode(currentItem.image, android.util.Base64.DEFAULT);
+        //val imageBytes = android.util.Base64.decode(currentItem.image, android.util.Base64.DEFAULT);
+        //val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        currentItem.image?.let { holder.image.setImageResource(it) }  //currentItem.image
         holder.name.text = currentItem.name
     }
 
@@ -44,5 +55,6 @@ class ProfilesRecyclerViewAdapter(
         }
 
     }
+
 
 }
