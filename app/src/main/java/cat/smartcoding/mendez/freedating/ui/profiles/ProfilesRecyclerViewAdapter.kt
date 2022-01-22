@@ -1,5 +1,6 @@
 package cat.smartcoding.mendez.freedating.ui.profiles
 
+import android.net.Uri
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ class ProfilesRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
+
+
         return ViewHolder(ProfilesFragmentItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -23,12 +26,14 @@ class ProfilesRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = values[position]
-        holder.image.setImageResource(currentItem.image)
+        val uri : Uri = Uri.parse(currentItem.image.toString())
+        holder.image.setImageURI(uri)  //currentItem.image
         holder.name.text = currentItem.name
     }
 
     override fun getItemCount(): Int = values.size
 
+    //itemView: View
     inner class ViewHolder(binding: ProfilesFragmentItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val image: ImageView = binding.image

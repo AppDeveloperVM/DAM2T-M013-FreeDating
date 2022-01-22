@@ -65,7 +65,7 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        (activity as MainActivity).setDrawer_Locked();
+        (activity as MainActivity).setDrawer_Locked()
         val currentUser = auth.currentUser
         if(currentUser != null){
             reload();

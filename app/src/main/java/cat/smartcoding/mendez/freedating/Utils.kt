@@ -3,27 +3,20 @@ package cat.smartcoding.mendez.freedating
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.ContentValues
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.DatePicker
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import cat.smartcoding.mendez.freedating.ui.gallery.GalleryFragment
+import cat.smartcoding.mendez.freedating.ui.profiles.ProfileItem
+import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesFragment
+import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesRecyclerViewAdapter
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
 import cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
-import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -31,12 +24,12 @@ class Utils {
 
     companion object{
         private var database = FirebaseDatabase.getInstance("https://freedatingapp-66476-default-rtdb.europe-west1.firebasedatabase.app/")
+        private lateinit var dbref : DatabaseReference
+        private var profilesArrayList : ArrayList<ProfileItem> = arrayListOf<ProfileItem>()
 
         fun obtenirDadesUsuari(activity: MainActivity){
             val uid = FirebaseAuth.getInstance().currentUser?.uid
             if( uid == null ) return
-
-
 
             val myRef = database.getReference("/users/$uid")
             myRef.addValueEventListener(object: ValueEventListener {
@@ -85,13 +78,55 @@ class Utils {
 
 
 
+        fun obtenirProfiles(fragment: ProfilesFragment): Unit?{
 
-        fun obtenirFotos(fragment: Fragment): Unit? {
-            val uid = FirebaseAuth.getInstance().currentUser?.uid
-            if( uid == null ) return null
+            var arrayList : ArrayList<ProfileItem>? = null
+
+            dbref = database.getReference("users")
+            dbref.addValueEventListener(object: ValueEventListener{
+
+                override fun onDataChange(snapshot: DataSnapshot){
+                    if(snapshot.exists()){
+                        for(userSnapshot in snapshot.children){
+
+                            val user = userSnapshot.getValue(ProfileItem::class.java)
+                            profilesArrayList.add(user!!)
+                        }
+                    }
+
+                    //userRecyclerView.adapter = MyAdapter(profilesArrayList)
+                    //arrayList = profilesArrayList
+
+                    (fragment as ProfilesFragment)
+                    fragment.getUserdata(profilesArrayList)
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            });
+
+            return null;
+
+        }
+
+
+        fun obtenirFotos(fragment: Fragment, id: String?): Unit? {
+
+            //uid = id ?: currentUser
+            var uid : String? = id ?: FirebaseAuth.getInstance().currentUser?.uid
+
+            //user Data
+            var myRef : DatabaseReference = if(uid == null)
+                database.getReference("/users")
+            else
+                database.getReference("/users/$uid")
+
+            //ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
 
             //images
-            val myRef = database.getReference("/users/$uid")
             var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
             val pathReference = storageRef.child( "/users/$uid/images/")
             val im = pathReference.getBytes(50000)
@@ -107,14 +142,33 @@ class Utils {
             }.addOnFailureListener {
             }
 
+            myRef.addValueEventListener(object: ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot){
+
+                    val value = snapshot.getValue<User>()
+
+                    (fragment as UserFragment)
+                    fragment.binding.tvUserName.text = value?.name;
+                    fragment.binding.tvUserAge.text = value?.birthdate;
+                    fragment.binding.tvUserGender.text = value?.gender;
+                    fragment.binding.tvUserLocation.text = if (value?.location != "") value?.location else "Not specify";
+                    fragment.binding.tvUserOther.text = if (value?.otherThings != "") value?.otherThings else "Nothing more";
+                    fragment.binding.tvUserDescription.text = if (value?.description != "") value?.description else "This person has no description yet";
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w("AYUDA", "Failed to read value.", error.toException())
+                }
+            })
+
             return null;
         }
 
 
         fun obtenirMainUserProfile(fragment: Fragment, type: Int = 0): Unit?{
             val uid = FirebaseAuth.getInstance().currentUser?.uid
-
-
 
             if( uid == null ) return null
             val myRef = database.getReference("/users/$uid")

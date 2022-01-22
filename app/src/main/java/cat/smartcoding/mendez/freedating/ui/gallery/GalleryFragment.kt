@@ -1,10 +1,13 @@
 package cat.smartcoding.mendez.freedating.ui.gallery
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,8 +19,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.database.DatabaseReference
-
-
+import okio.Utf8.size
+import java.io.File
+import java.nio.file.Files.size
 
 
 class GalleryFragment : Fragment() {
@@ -40,23 +44,29 @@ class GalleryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         galleryViewModel =
             ViewModelProvider(this)[GalleryViewModel::class.java]
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        //-------Firebase STORAGE - GET IMAGES--------
+        //Firebase
         storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
-        val firebaseDatabase = FirebaseDatabase.getInstance()
-        Log.i("AYUDA", FirebaseAuth.getInstance().currentUser?.uid.toString());
 
-        val databaseReference: DatabaseReference = firebaseDatabase.reference
-        val pathReference = storageRef.child("/users/.../images/")
-        val getImage = databaseReference.child("image")
+        val pathReference = storageRef.child( "/users/.../images/")
+        val getImage = pathReference.child("images/")
+        val localfile = File.createTempFile("tempImage","jpg")
+        val im = pathReference.getBytes(50000)
 
-        /*getImage.addListenerForSingleValueEvent(new ValueEventListener() {
-        })*/
+        im.addOnSuccessListener {
+            //llegim la imatge que estarà en "it"
+            var bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+            //ivBaixada.setImageBitmap( bitmap ) //posa el bitmap a la imatge
+        }
+
+
+        //Utils.obtenirFotos(this);
 
         //fill recyclerView gallery
         imageId = arrayOf(

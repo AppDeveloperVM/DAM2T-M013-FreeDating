@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cat.smartcoding.mendez.freedating.R
+import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.ProfilesFragmentItemListBinding
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.StorageReference
 
 /**
@@ -17,19 +19,27 @@ import com.google.firebase.storage.StorageReference
  */
 class ProfilesFragment : Fragment() {
 
+    private lateinit var dbref: FirebaseDatabase
+    //.getInstance("https://freedatingapp-66476-default-rtdb.europe-west1.firebasedatabase.app/")
+
     private var _binding: ProfilesFragmentItemListBinding? = null
     private val binding get() = _binding!!
 
     private var columnCount = 3
 
-    private lateinit var recyclerView: RecyclerView
+     lateinit var recyclerView: RecyclerView
     private lateinit var storageRef: StorageReference;
     private lateinit var newArrayList : ArrayList<ProfileItem>
     lateinit var imageId : Array<Int>
     lateinit var name : Array<String>
 
+    private lateinit var userArrayList : ArrayList<ProfileItem>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        userArrayList = arrayListOf<ProfileItem>()
+
 
 //        arguments?.let {
 //            columnCount = it.getInt(ARG_COLUMN_COUNT)
@@ -46,6 +56,7 @@ class ProfilesFragment : Fragment() {
         val view: View = binding.root
 
         recyclerView = binding.list
+
 
         //fill recyclerView gallery
         imageId = arrayOf(
@@ -79,14 +90,17 @@ class ProfilesFragment : Fragment() {
         return view
     }
 
-    private fun getUserdata() {
+    fun getUserdata(profilesArrayList : ArrayList<ProfileItem>? = null) {
 
-        for(i in imageId.indices){
+        Utils.obtenirProfiles(this)
+
+        /*for(i in imageId.indices){
             val images = ProfileItem(imageId[i],name[i])
             newArrayList.add(images)
-        }
+        }*/
 
-        recyclerView.adapter = ProfilesRecyclerViewAdapter(newArrayList)
+        //newArrayList
+        recyclerView.adapter = profilesArrayList?.let { ProfilesRecyclerViewAdapter(it) }
     }
 
 }
