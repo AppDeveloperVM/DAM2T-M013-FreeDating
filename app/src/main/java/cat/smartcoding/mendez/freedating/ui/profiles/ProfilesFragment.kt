@@ -25,10 +25,9 @@ class ProfilesFragment : Fragment() {
 
     private var _binding: ProfilesFragmentItemListBinding? = null
     private val binding get() = _binding!!
-
+    lateinit var recyclerView: RecyclerView
     private var columnCount = 3
 
-     lateinit var recyclerView: RecyclerView
     private lateinit var storageRef: StorageReference;
     private lateinit var newArrayList : ArrayList<ProfileItem>
     lateinit var imageId : Array<Int>
@@ -57,10 +56,8 @@ class ProfilesFragment : Fragment() {
         //val view = inflater.inflate(R.layout.profiles_fragment_item_list, container, false)
 
         _binding = ProfilesFragmentItemListBinding.inflate(inflater, container, false)
-        val view: View = binding.root
-
         recyclerView = binding.list
-
+        val view: View = binding.root
 
         //fill recyclerView gallery
         imageId = arrayOf(
@@ -77,10 +74,6 @@ class ProfilesFragment : Fragment() {
             "Jenny",
             "Cristina"
         )
-
-
-
-
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -107,6 +100,11 @@ class ProfilesFragment : Fragment() {
 
         //newArrayList
         recyclerView.adapter = profilesArrayList?.let { ProfilesRecyclerViewAdapter(it) }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

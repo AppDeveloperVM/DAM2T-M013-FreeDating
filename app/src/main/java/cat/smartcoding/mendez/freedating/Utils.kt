@@ -1,31 +1,29 @@
 package cat.smartcoding.mendez.freedating
 
-import androidx.appcompat.app.AppCompatActivity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.core.graphics.createBitmap
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import cat.smartcoding.mendez.freedating.ui.gallery.GalleryFragment
+import cat.smartcoding.mendez.freedating.ui.gallery.GalleryItem
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfileItem
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesFragment
-import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesRecyclerViewAdapter
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
 import cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment
-import com.google.android.gms.tasks.Task
-import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.IOException
-import java.security.AccessController.getContext
 
 
 import java.util.*
@@ -37,7 +35,7 @@ class Utils {
         private var database = FirebaseDatabase.getInstance("https://freedatingapp-66476-default-rtdb.europe-west1.firebasedatabase.app/")
         private lateinit var dbref : DatabaseReference
         private var profilesArrayList : ArrayList<ProfileItem> = arrayListOf<ProfileItem>()
-        private var imagesProfile : ArrayList<GalleryItem> = arrayListOf<GalleryItem>()
+        private var imagesProfile : ArrayList<Uri> = arrayListOf<Uri>()
         private lateinit var context : Context
 
 
@@ -166,36 +164,59 @@ class Utils {
 
         fun obtenirFotos(fragment: Fragment): Unit? {
 
-            var uid : String? = FirebaseAuth.getInstance().currentUser?.uid
+            var uid : String? = FirebaseAuth.getInstance().currentUser?.uid ?: return null
 
             //user Data
-            var myRef : DatabaseReference = database.getReference("/users/$uid")
+            //var myRef : DatabaseReference = database.getReference("/users/$uid")
             //ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
             var storageRef =
-                FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com")
+                FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
+            //var image : GalleryItem? = null
+
+                storageRef.child("/users/$uid/background_pic.jpg").downloadUrl
+                    .addOnSuccessListener{
+
+                    // Got the download URL for "YourFolderName/YourFile.pdf"
+                    // Add it to your database
+                    imagesProfile.add(it)
+
+                        (fragment as GalleryFragment)
+                        fragment.getUserdata(imagesProfile)
 
 
-            myRef.addValueEventListener(object: ValueEventListener {
+                    }.addOnFailureListener {
+                        Log.d("FireStorage Error","Couldn't get images")
+                    }
+
+
+
+            /*myRef.addValueEventListener(object: ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
 
                         for (imageSnapshot in snapshot.children) {
 
-
+                            var image = imageSnapshot.getValue(GalleryItem::class.java)
+                            if (image != null) {
+                                imagesProfile.add(image)
+                            }
 
                         }
 
                     }
 
-                    //getUserdata()
+                    (fragment as GalleryFragment)
+                    fragment.getUserdata(imagesProfile)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.w("AYUDA", "Failed to read value.", error.toException())
                 }
 
-            })
+            })*/
+
+
 
             return null;
         }
@@ -302,9 +323,7 @@ class Utils {
             var otherThings: String? = "",
             var description: String? = ""
         )
-        data class GalleryItem(
-            var img: Bitmap? = createBitmap(1000,1000)
-        )
+
 
     }
 

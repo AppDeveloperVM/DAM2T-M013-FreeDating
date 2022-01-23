@@ -1,3 +1,5 @@
 package cat.smartcoding.mendez.freedating.ui.gallery
 
-data class GalleryItem(var titleimage: Int)
+import android.net.Uri
+
+data class GalleryItem(var imageUrl: Uri)
