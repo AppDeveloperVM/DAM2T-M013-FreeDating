@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import androidx.core.graphics.createBitmap
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfileItem
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.io.IOException
 import java.security.AccessController.getContext
 
@@ -35,7 +37,15 @@ class Utils {
         private var database = FirebaseDatabase.getInstance("https://freedatingapp-66476-default-rtdb.europe-west1.firebasedatabase.app/")
         private lateinit var dbref : DatabaseReference
         private var profilesArrayList : ArrayList<ProfileItem> = arrayListOf<ProfileItem>()
+        private var imagesProfile : ArrayList<GalleryItem> = arrayListOf<GalleryItem>()
         private lateinit var context : Context
+
+
+        fun onCreate() {
+
+            database.setPersistenceEnabled(true);
+
+        }
 
         fun obtenirDadesUsuari(activity: MainActivity){
             val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -89,12 +99,14 @@ class Utils {
         fun obtenirProfiles(fragment: ProfilesFragment): Unit?{
 
             //context = fragment.requireContext()
+            profilesArrayList.clear()
 
             var arrayList : ArrayList<ProfileItem>? = null
             var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
 
             dbref = database.getReference("users")
-            dbref.addValueEventListener(object: ValueEventListener{
+            dbref.keepSynced(true)
+            dbref.addListenerForSingleValueEvent(object: ValueEventListener{
 
                 override fun onDataChange(snapshot: DataSnapshot){
                     if(snapshot.exists()){
@@ -103,22 +115,33 @@ class Utils {
                             var info = userSnapshot.getValue(ProfileItem::class.java)
                             val id =  userSnapshot.key
 
-                            val profilePic = storageRef.child( "/users/$id/profile_pic.jpg")
-                            val pPim = profilePic.getBytes(5000000)
+                            var profilePic: StorageReference? = null
+                            var user : ProfileItem? = null
 
-                            pPim.addOnSuccessListener {
-                                var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
-                                info?.image = 0
+                            if(userSnapshot.hasChild("image")){
 
-                            }.addOnFailureListener {
-                                Log.d("Exception","Couldnt get Profile Pic!");
+                                profilePic = storageRef.child( "/users/$id/profile_pic.jpg")
+
+                                val pPim = profilePic.getBytes(5000000)
+
+                                pPim.addOnSuccessListener {
+                                    var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
+                                    info?.image = 0
+
+                                }.addOnFailureListener {
+                                    Log.d("Exception","Couldnt get Profile Pic!");
+                                }
+
+
+
                             }
 
-
-                            val user = userSnapshot.getValue(ProfileItem::class.java)
-                            if (info != null) {
+                            //if (info != null) {
+                                user = userSnapshot.getValue(ProfileItem::class.java)
                                 profilesArrayList.add(user!!)
-                            }
+                            //}
+
+
                         }
                     }
 
@@ -131,7 +154,7 @@ class Utils {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-
+                    Log.d("The read failed: " , "Error: "+ "code " + error.code + ", " + error.details );
                 }
 
             });
@@ -143,52 +166,35 @@ class Utils {
 
         fun obtenirFotos(fragment: Fragment): Unit? {
 
-            //uid = id ?: currentUser
             var uid : String? = FirebaseAuth.getInstance().currentUser?.uid
 
             //user Data
-            var myRef : DatabaseReference = if(uid == null)
-                database.getReference("/users")
-            else
-                database.getReference("/users/$uid")
-
+            var myRef : DatabaseReference = database.getReference("/users/$uid")
             //ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
+            var storageRef =
+                FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com")
 
-            //images
-            var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
-            val pathReference = storageRef.child( "/users/$uid/images/")
-            val im = pathReference.getBytes(50000)
-
-            im.addOnSuccessListener {
-                var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
-
-                (fragment as UserFragment)
-                fragment.binding.ivUserProfile.setImageBitmap(bitmap)
-
-                //setImageBitmap(bitmap)
-
-            }.addOnFailureListener {
-            }
 
             myRef.addValueEventListener(object: ValueEventListener {
 
-                override fun onDataChange(snapshot: DataSnapshot){
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
 
-                    val value = snapshot.getValue<User>()
+                        for (imageSnapshot in snapshot.children) {
 
-                    (fragment as UserFragment)
-                    fragment.binding.tvUserName.text = value?.name;
-                    fragment.binding.tvUserAge.text = value?.birthdate;
-                    fragment.binding.tvUserGender.text = value?.gender;
-                    fragment.binding.tvUserLocation.text = if (value?.location != "") value?.location else "Not specify";
-                    fragment.binding.tvUserOther.text = if (value?.otherThings != "") value?.otherThings else "Nothing more";
-                    fragment.binding.tvUserDescription.text = if (value?.description != "") value?.description else "This person has no description yet";
 
+
+                        }
+
+                    }
+
+                    //getUserdata()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.w("AYUDA", "Failed to read value.", error.toException())
                 }
+
             })
 
             return null;
@@ -295,6 +301,9 @@ class Utils {
             var location: String? = "",
             var otherThings: String? = "",
             var description: String? = ""
+        )
+        data class GalleryItem(
+            var img: Bitmap? = createBitmap(1000,1000)
         )
 
     }
