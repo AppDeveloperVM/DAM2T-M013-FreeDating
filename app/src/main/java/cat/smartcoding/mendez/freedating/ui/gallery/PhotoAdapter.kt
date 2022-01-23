@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cat.smartcoding.mendez.freedating.ui.gallery.PhotoAdapter.*
-import java.util.ArrayList
 import android.widget.ImageView
 import cat.smartcoding.mendez.freedating.R
+import kotlin.collections.ArrayList
 
-class PhotoAdapter(private val gItems: ArrayList<GalleryItem>) :
+class PhotoAdapter(private val gItems: ArrayList<GalleryItem>? = null) :
     RecyclerView.Adapter<MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -20,12 +20,17 @@ class PhotoAdapter(private val gItems: ArrayList<GalleryItem>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = gItems[position]
-        holder.titleImage.setImageResource(currentItem.titleimage)
+        val currentItem = gItems?.get(position)
+        if (currentItem != null) {
+            holder.titleImage.setImageURI(currentItem.imageUrl)
+        }
     }
 
     override fun getItemCount(): Int {
-        return gItems.size
+        if (gItems != null) {
+            return gItems.size
+        }
+        return 0
     }
 
     class MyViewHolder(itemView :View) : RecyclerView.ViewHolder(itemView){

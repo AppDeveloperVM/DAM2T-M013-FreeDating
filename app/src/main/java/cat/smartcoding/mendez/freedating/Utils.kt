@@ -173,7 +173,9 @@ class Utils {
                 FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
             //var image : GalleryItem? = null
 
-                storageRef.child("/users/$uid/background_pic.jpg").downloadUrl
+                storageRef.child("/users/")
+                    .child("$uid/")
+                    .child("background_pic.jpg").downloadUrl
                     .addOnSuccessListener{
 
                     // Got the download URL for "YourFolderName/YourFile.pdf"
@@ -188,9 +190,7 @@ class Utils {
                         Log.d("FireStorage Error","Couldn't get images")
                     }
 
-
-
-            /*myRef.addValueEventListener(object: ValueEventListener {
+                /*myRef.addValueEventListener(object: ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
@@ -215,7 +215,6 @@ class Utils {
                 }
 
             })*/
-
 
 
             return null;
