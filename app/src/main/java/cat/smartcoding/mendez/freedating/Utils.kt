@@ -171,34 +171,12 @@ class Utils {
 
 
         fun obtenirFotos(fragment: Fragment, r: RecyclerView): Unit? {
-            //FirebaseAppCheck.getInstance().getAppCheckToken(false)
-
 
 
             var uid : String? = FirebaseAuth.getInstance().currentUser?.uid ?: return null
             if( uid == null ) return null
 
-            //gs://freedatingapp-66476.appspot.com/users/moxyxIYDBfTVdILNy98d4yLzCwv2/images
-            /*storageRef
-                    .child("/users/$uid/images/")
-                    /*.child("users")
-                    .child("$uid")
-                    .child("images")*/
-                    .listAll().addOnSuccessListener { it ->
-                        it.items.forEach{ it ->
-                            it.downloadUrl.addOnSuccessListener {
-                                // Got the download URL for "YourFolderName/YourFile.pdf"
-                                imagesProfile.add(it)
-                            }.addOnFailureListener {
 
-                            }
-                        }
-                        (fragment as GalleryFragment)
-                        fragment.getUserdata(imagesProfile)
-
-                    }.addOnFailureListener{
-                        Log.i("A","Couldn't get images; ERROR" + it)
-                    }*/
             if(cargaImagenes == true) {
 
                 arrayImagenesGallery = ArrayList<GalleryItem>();
@@ -230,66 +208,15 @@ class Utils {
                         }.addOnFailureListener {
 
                         }
-
-                        /*it.downloadUrl.addOnSuccessListener {
-                        Log.i("AYUDA",it.toString());
-
-                        /*val bitmap =
-                            BitmapFactory.decodeStream(URL(it.toString()).getContent() as InputStream)*/
-                        //array.add(BitmapFactory.decodeStream(URL(it.toString()).getContent() as InputStream));
-                        //array.add(it);
-                        //array.add(getBitmapFromURL(it.toString())!!);
-                    }*/
                     }
 
-                    /*val bytes = it.items.get(0).getBytes(500000000);
-                bytes.addOnSuccessListener {
-                    array.add(GalleryItem(BitmapFactory.decodeByteArray( it, 0, it.size )));
-
-                    Log.i("AYUDA", "ARRAY: " + array.last().toString())
-
                 }.addOnFailureListener {
-                    Log.d("Exception","Couldnt get Profile Pic!");
-                }*/
-
-
-                }.addOnFailureListener {
-                    //Log.i("AYUDA", "FALLOOOOOOOOOOOO");
+                    Log.i("AYUDA", "FALLOOOOOOOOOOOO");
                 }
 
             }else{
                 r.adapter = PhotoAdapter(arrayImagenesGallery);
             }
-
-
-
-                /*myRef.addValueEventListener(object: ValueEventListener {
-
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-
-                        for (imageSnapshot in snapshot.children) {
-
-                            var image = imageSnapshot.getValue(GalleryItem::class.java)
-                            if (image != null) {
-                                imagesProfile.add(image)
-                            }
-
-                        }
-
-                    }
-
-                    (fragment as GalleryFragment)
-                    fragment.getUserdata(imagesProfile)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.w("AYUDA", "Failed to read value.", error.toException())
-                }
-
-            })*/
-
-
             return null;
         }
 

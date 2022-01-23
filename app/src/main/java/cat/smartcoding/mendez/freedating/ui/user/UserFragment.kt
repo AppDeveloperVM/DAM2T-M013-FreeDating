@@ -55,7 +55,7 @@ class UserFragment : Fragment() {
 
 
     private fun getUserdata() {
-        var imageId = arrayOf(
+        /* var imageId = arrayOf(
             R.drawable.ic_launcher_round,
             R.drawable.ic_launcher_round,
             R.drawable.ic_launcher_round,
@@ -68,15 +68,17 @@ class UserFragment : Fragment() {
             "Rocío",
             "Jenny",
             "Cristina"
-        )
+        )*/
 
-        var newArrayList = arrayListOf<UserPhotoGalleryItem>()
+        /*var newArrayList = arrayListOf<UserPhotoGalleryItem>()
         for(i in imageId.indices){
             val images = UserPhotoGalleryItem(imageId[i])
             newArrayList.add(images)
-        }
+        }*/
 
-        recyclerView.adapter = UserPhotoAdapter(newArrayList)
+        Utils.obtenirFotos(this, recyclerView);
+
+        //recyclerView.adapter = UserPhotoAdapter(newArrayList)
     }
 
 
