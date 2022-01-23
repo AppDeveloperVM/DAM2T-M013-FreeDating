@@ -12,6 +12,7 @@ import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.ProfilesFragmentItemListBinding
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.storage.StorageReference
 
 /**
@@ -44,6 +45,9 @@ class ProfilesFragment : Fragment() {
 //        arguments?.let {
 //            columnCount = it.getInt(ARG_COLUMN_COUNT)
 //        }
+
+        Utils.obtenirProfiles(this)
+
     }
 
     override fun onCreateView(
@@ -74,7 +78,7 @@ class ProfilesFragment : Fragment() {
             "Cristina"
         )
 
-        Utils.obtenirProfiles(this)
+
 
 
 
