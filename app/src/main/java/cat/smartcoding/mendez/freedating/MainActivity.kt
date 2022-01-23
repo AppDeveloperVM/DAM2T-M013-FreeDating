@@ -94,6 +94,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var currentPhotoName: String
     lateinit var currentPhotoURI: Uri
 
+    lateinit var pref_gender : String;
+    public var pref_age = 99;
+
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -167,6 +170,8 @@ class MainActivity : AppCompatActivity() {
         }else{
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+        pref_age = sharedp.getInt("age", 99) ?: 99;
+        pref_gender = sharedp.getString("gender", "All") ?: "All";
 
 
     }

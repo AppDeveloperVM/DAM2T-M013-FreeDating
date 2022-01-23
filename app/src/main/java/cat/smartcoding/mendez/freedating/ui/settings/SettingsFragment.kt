@@ -35,11 +35,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
             }
-            "gendeer" ->{
-
+            "gender" ->{
+                (activity as MainActivity).pref_gender = sharedPreferences?.getString("gender", "All") ?: "All";
             }
             "age" ->{
-
+                (activity as MainActivity).pref_age = sharedPreferences?.getInt("age", 99) ?: 99;
             }
 
         }

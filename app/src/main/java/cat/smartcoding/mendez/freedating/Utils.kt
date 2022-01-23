@@ -7,8 +7,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +35,10 @@ import kotlin.collections.HashMap
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.time.LocalDate
+import javax.xml.datatype.DatatypeConstants.DAYS
 import kotlin.collections.ArrayList
+import kotlin.time.DurationUnit
 
 
 class Utils {
@@ -117,20 +122,41 @@ class Utils {
             dbref.keepSynced(true)
             dbref.addListenerForSingleValueEvent(object: ValueEventListener{
 
+                @RequiresApi(Build.VERSION_CODES.O)
                 override fun onDataChange(snapshot: DataSnapshot){
                     if(snapshot.exists()){
                         var contador = 0;
-                        snapshot.children.forEach { userSnapshot ->
+                        val pref_age =  (fragment.activity as MainActivity).pref_age
+                        val pref_gender = (fragment.activity as MainActivity).pref_gender;
+                        val today = LocalDate.now();
+
+                        for (userSnapshot in snapshot.children) {
                             //var info = userSnapshot.getValue(ProfileItem::class.java)
                             var info = userSnapshot.getValue<ProfileItem>()
                             val id =  userSnapshot.key
 
+                            var bd = info?.birthdate;
+                            val bda = bd?.split("/")?.toTypedArray()
+                            /*val actual_birthdate =
+                                bda?.get(2)?.toInt()?.let {
+                                    LocalDate.of(bda?.get(2)?.toInt(), bda?.get(1)?.toInt(),
+                                        it
+                                    )
+                                }*/
+
+                            if(info?.gender!! != pref_gender) {
+                                if(pref_gender != "All"){
+                                contador++;
+                                Log.i("AYUDA", "${info?.gender!!}__$pref_gender");
+                                continue
+                                }
+                            }
 
                             var profilePic: StorageReference? = null
                             var user : ProfileItem? = null
 
 
-                            Log.i("AYUDA", info?.birthdate.toString());
+
 
                             profilePic = storageRef.child( "/users/$id/profile_pic.jpg")
 
