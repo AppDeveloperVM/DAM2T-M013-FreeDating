@@ -1,3 +1,5 @@
 package cat.smartcoding.mendez.freedating.ui.profiles
 
-data class ProfileItem(var image: Int? = 0, var name : String? = "")
+import android.graphics.Bitmap
+
+data class ProfileItem(var image: Bitmap? = null, var name : String? = "")

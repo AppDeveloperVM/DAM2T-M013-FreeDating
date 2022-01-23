@@ -21,7 +21,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.017"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/ic_launcher_round"
+        android:src="@drawable/ic_launcher_round"
+        tools:srcCompat="@drawable/ic_launcher_round" />
 
     <TextView
         android:id="@+id/name"

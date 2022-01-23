@@ -38,14 +38,14 @@ class ProfilesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        userArrayList = arrayListOf<ProfileItem>()
+
 
 
 //        arguments?.let {
 //            columnCount = it.getInt(ARG_COLUMN_COUNT)
 //        }
 
-        Utils.obtenirProfiles(this)
+
 
     }
 
@@ -58,6 +58,9 @@ class ProfilesFragment : Fragment() {
         _binding = ProfilesFragmentItemListBinding.inflate(inflater, container, false)
         recyclerView = binding.list
         val view: View = binding.root
+
+        userArrayList = arrayListOf<ProfileItem>()
+        Utils.obtenirProfiles(this, recyclerView);
 
         //fill recyclerView gallery
         imageId = arrayOf(
@@ -93,10 +96,10 @@ class ProfilesFragment : Fragment() {
     fun getUserdata(profilesArrayList : ArrayList<ProfileItem>? = null) {
 
 
-        for(i in imageId.indices){
+        /*for(i in imageId.indices){
             val images = ProfileItem(imageId[i],name[i])
             newArrayList.add(images)
-        }
+        }*/
 
         //newArrayList
         recyclerView.adapter = profilesArrayList?.let { ProfilesRecyclerViewAdapter(it) }

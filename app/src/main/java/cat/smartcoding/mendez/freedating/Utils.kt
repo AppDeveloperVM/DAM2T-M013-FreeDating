@@ -16,6 +16,7 @@ import cat.smartcoding.mendez.freedating.ui.gallery.GalleryItem
 import cat.smartcoding.mendez.freedating.ui.gallery.PhotoAdapter
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfileItem
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesFragment
+import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesRecyclerViewAdapter
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
 import cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -104,7 +105,7 @@ class Utils {
             myRef.updateChildren(hashupdate);
         }
 
-        fun obtenirProfiles(fragment: ProfilesFragment): Unit?{
+        fun obtenirProfiles(fragment: ProfilesFragment, r: RecyclerView): Unit?{
 
             //context = fragment.requireContext()
             profilesArrayList.clear()
@@ -118,44 +119,53 @@ class Utils {
 
                 override fun onDataChange(snapshot: DataSnapshot){
                     if(snapshot.exists()){
-                        for(userSnapshot in snapshot.children){
-
-                            var info = userSnapshot.getValue(ProfileItem::class.java)
+                        var contador = 0;
+                        snapshot.children.forEach { userSnapshot ->
+                            //var info = userSnapshot.getValue(ProfileItem::class.java)
+                            var info = userSnapshot.getValue<ProfileItem>()
                             val id =  userSnapshot.key
+
 
                             var profilePic: StorageReference? = null
                             var user : ProfileItem? = null
 
-                            if(userSnapshot.hasChild("image")){
 
-                                profilePic = storageRef.child( "/users/$id/profile_pic.jpg")
 
-                                val pPim = profilePic.getBytes(5000000)
+                            profilePic = storageRef.child( "/users/$id/profile_pic.jpg")
 
-                                pPim.addOnSuccessListener {
-                                    var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
-                                    info?.image = 0
+                            val pPim = profilePic.getBytes(5000000)
 
-                                }.addOnFailureListener {
-                                    Log.d("Exception","Couldnt get Profile Pic!");
+
+
+                            pPim.addOnSuccessListener {
+                                Log.i("AYUDA", "/users/$id/profile_pic.jpg")
+
+                                var bitmap = BitmapFactory.decodeByteArray( it,0,it.size)
+                                bitmap = Bitmap.createScaledBitmap(
+                                    bitmap, 250, 250, false
+                                )
+                                profilesArrayList.add(ProfileItem(bitmap, info?.name));
+
+
+                                info?.image = bitmap;
+
+                            }.addOnFailureListener {
+
+                                Log.d("Exception","Couldnt get Profile Pic!");
+                                profilesArrayList.add(ProfileItem(null, info?.name));
+
+
+                            }.addOnCompleteListener {
+                                contador = contador+ 1;
+                                Log.i("AYUDA", contador.toString());
+                                if(snapshot.childrenCount <= contador){
+
+                                    r.adapter = ProfilesRecyclerViewAdapter(profilesArrayList);
                                 }
-
                             }
-
-                            //if (info != null) {
-                                user = userSnapshot.getValue(ProfileItem::class.java)
-                                profilesArrayList.add(user!!)
-                            //}
-
-
                         }
+
                     }
-
-                    //userRecyclerView.adapter = MyAdapter(profilesArrayList)
-                    //arrayList = profilesArrayList
-
-                    (fragment as ProfilesFragment)
-                    fragment.getUserdata(profilesArrayList)
 
                 }
 

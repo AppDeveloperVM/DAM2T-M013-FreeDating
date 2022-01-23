@@ -40,7 +40,12 @@ class ProfilesRecyclerViewAdapter(
         //val imageBytes = android.util.Base64.decode(currentItem.image, android.util.Base64.DEFAULT);
         //val imageBytes = android.util.Base64.decode(currentItem.image, android.util.Base64.DEFAULT);
         //val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-        currentItem.image?.let { holder.image.setImageResource(it) }  //currentItem.image
+        //currentItem.image?.let { holder.image.setImageResource(it) }  //currentItem.image
+        //currentItem.image?.let { holder.image.setImageBitmap(it) }  //currentItem.image
+        Log.i("AYUDA", currentItem.image.toString() + " PARA: " + currentItem.name);
+        if(currentItem.image != null) {
+            holder.image.setImageBitmap(currentItem.image);
+        }
         holder.name.text = currentItem.name
     }
 
