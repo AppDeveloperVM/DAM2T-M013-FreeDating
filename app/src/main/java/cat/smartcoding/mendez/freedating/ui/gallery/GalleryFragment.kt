@@ -1,8 +1,10 @@
 package cat.smartcoding.mendez.freedating.ui.gallery
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,11 +36,6 @@ class GalleryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-
-        newArrayList = arrayListOf<GalleryItem>()
-
-
-        Utils.obtenirFotos(this);
     }
 
     override fun onCreateView(
@@ -53,6 +50,15 @@ class GalleryFragment : Fragment() {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         recyclerView = binding.recyclerView
         val view: View = binding.root
+
+        //Taba en el create
+        newArrayList = arrayListOf<GalleryItem>()
+        Utils.obtenirFotos(this, binding.recyclerView);
+        //Log.i("AYUDA", arrayImagenes?.size.toString());
+        //fin Taba en el create
+        /*arrayImagenes?.forEach {
+            newArrayList.add(GalleryItem(it));
+        }*/
 
         //Firebase
         storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
@@ -85,6 +91,14 @@ class GalleryFragment : Fragment() {
             "Cristina"
         )
 
+
+        recyclerView = binding.recyclerView
+        recyclerView.layoutManager = GridLayoutManager(recyclerView.context,3)
+        recyclerView.setHasFixedSize(true)
+
+        newArrayList = arrayListOf<GalleryItem>()
+        //getUserdata(arrayImagenes!!);
+
         //recyclerView.layoutManager = GridLayoutManager(recyclerView.context,3)
         //recyclerView.setHasFixedSize(true)
 
@@ -94,22 +108,30 @@ class GalleryFragment : Fragment() {
         //Utils.obtenirDadesUsuari(activity as MainActivity);
 
         // Set the adapter
-        if (view is RecyclerView) {
+        /*if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                newArrayList = arrayListOf<GalleryItem>()
-                //getUserdata()
+                //newArrayList = arrayListOf<GalleryItem>()
+
+                getUserdata()
                 //adapter = ProfilesRecyclerViewAdapter(newArrayList)
             }
+        }*/
+
+        /*binding.recyclerView.layoutManager = when{
+            columnCount <= 1 -> LinearLayoutManager(context)
+            else -> GridLayoutManager(context, columnCount)
         }
+
+        getUserdata()*/
         return view
 
     }
 
-    fun getUserdata(imagesArrayList: java.util.ArrayList<Uri>? = null) {
+    /*fun getUserdata(imagesArrayList: java.util.ArrayList<Bitmap>? = null) {
         //ArrayList<Utils.Companion.GalleryItem> = null
 
         if (imagesArrayList != null) {
@@ -121,6 +143,15 @@ class GalleryFragment : Fragment() {
         }
 
         recyclerView.adapter = PhotoAdapter(newArrayList)
+    }*/
+    private fun getUserdata(a: ArrayList<Bitmap>) {
+
+        for(i in a.indices){
+            val images = GalleryItem(a[i])
+            newArrayList.add(images)
+        }
+
+       // recyclerView.adapter = PhotoAdapter(newArrayList)
     }
 
     override fun onDestroyView() {

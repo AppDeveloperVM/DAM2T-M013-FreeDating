@@ -217,7 +217,7 @@ class MainActivity : AppCompatActivity() {
             takePictureIntent.resolveActivity(packageManager)?.also {
                 // Create the File where the photo should go
                 val photoFile: File? = try {
-                    createImageFile()
+                    createImageFile() 
                 } catch (ex: IOException) {
                     // Error occurred while creating the File
 

@@ -1,22 +1,19 @@
 package cat.smartcoding.mendez.freedating
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import cat.smartcoding.mendez.freedating.ui.gallery.GalleryFragment
+import androidx.recyclerview.widget.RecyclerView
 import cat.smartcoding.mendez.freedating.ui.gallery.GalleryItem
+import cat.smartcoding.mendez.freedating.ui.gallery.PhotoAdapter
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfileItem
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesFragment
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
@@ -31,10 +28,11 @@ import java.io.IOException
 
 import java.util.*
 import kotlin.collections.HashMap
-import com.google.firebase.auth.GetTokenResult
 
-import com.google.firebase.auth.FirebaseUser
-import io.reactivex.internal.subscriptions.SubscriptionHelper.cancel
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.collections.ArrayList
 
 
 class Utils {
@@ -46,6 +44,9 @@ class Utils {
         private var profilesArrayList : ArrayList<ProfileItem> = arrayListOf<ProfileItem>()
         private var imagesProfile : ArrayList<Uri> = arrayListOf<Uri>()
         private lateinit var context : Context
+
+        private lateinit var arrayImagenesGallery: ArrayList<GalleryItem>;
+        var cargaImagenes = true;
 
 
         fun onCreate() {
@@ -169,15 +170,16 @@ class Utils {
         }
 
 
-        fun obtenirFotos(fragment: Fragment): Unit? {
-
+        fun obtenirFotos(fragment: Fragment, r: RecyclerView): Unit? {
             //FirebaseAppCheck.getInstance().getAppCheckToken(false)
+
+
 
             var uid : String? = FirebaseAuth.getInstance().currentUser?.uid ?: return null
             if( uid == null ) return null
 
             //gs://freedatingapp-66476.appspot.com/users/moxyxIYDBfTVdILNy98d4yLzCwv2/images
-            storageRef
+            /*storageRef
                     .child("/users/$uid/images/")
                     /*.child("users")
                     .child("$uid")
@@ -195,8 +197,70 @@ class Utils {
                         fragment.getUserdata(imagesProfile)
 
                     }.addOnFailureListener{
-                        Log.d("FireStorage Error","Couldn't get images")
+                        Log.i("A","Couldn't get images; ERROR" + it)
+                    }*/
+            if(cargaImagenes == true) {
+
+                arrayImagenesGallery = ArrayList<GalleryItem>();
+                storageRef.child("/users/$uid/images/").listAll().addOnSuccessListener { listado ->
+
+                    listado.items.forEach { item ->
+
+                        val bytes = item.getBytes(5000000);
+
+                        bytes.addOnSuccessListener {
+                            arrayImagenesGallery.add(
+                                GalleryItem(
+                                    Bitmap.createScaledBitmap(
+                                        BitmapFactory.decodeByteArray(
+                                            it,
+                                            0,
+                                            it.size
+                                        ), 250, 250, false
+                                    )
+
+                                )
+                            );
+                            if (item == listado.items.last()) {
+                                cargaImagenes = false;
+                                r.adapter = PhotoAdapter(arrayImagenesGallery);
+                            }
+
+
+                        }.addOnFailureListener {
+
+                        }
+
+                        /*it.downloadUrl.addOnSuccessListener {
+                        Log.i("AYUDA",it.toString());
+
+                        /*val bitmap =
+                            BitmapFactory.decodeStream(URL(it.toString()).getContent() as InputStream)*/
+                        //array.add(BitmapFactory.decodeStream(URL(it.toString()).getContent() as InputStream));
+                        //array.add(it);
+                        //array.add(getBitmapFromURL(it.toString())!!);
+                    }*/
                     }
+
+                    /*val bytes = it.items.get(0).getBytes(500000000);
+                bytes.addOnSuccessListener {
+                    array.add(GalleryItem(BitmapFactory.decodeByteArray( it, 0, it.size )));
+
+                    Log.i("AYUDA", "ARRAY: " + array.last().toString())
+
+                }.addOnFailureListener {
+                    Log.d("Exception","Couldnt get Profile Pic!");
+                }*/
+
+
+                }.addOnFailureListener {
+                    //Log.i("AYUDA", "FALLOOOOOOOOOOOO");
+                }
+
+            }else{
+                r.adapter = PhotoAdapter(arrayImagenesGallery);
+            }
+
 
 
                 /*myRef.addValueEventListener(object: ValueEventListener {
@@ -333,6 +397,19 @@ class Utils {
         )
 
 
+       /* fun getBitmapFromURL(src: String?): Bitmap? {
+            return try {
+                val url = URL(src)
+                val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+                connection.setDoInput(true)
+                connection.connect()
+                val input: InputStream = connection.getInputStream()
+                BitmapFactory.decodeStream(input)
+            } catch (e: IOException) {
+                // Log exception
+                null
+            }
+        }*/
     }
 
 
