@@ -130,6 +130,7 @@ class Utils {
                             var user : ProfileItem? = null
 
 
+                            Log.i("AYUDA", info?.birthdate.toString());
 
                             profilePic = storageRef.child( "/users/$id/profile_pic.jpg")
 
@@ -138,13 +139,13 @@ class Utils {
 
 
                             pPim.addOnSuccessListener {
-                                Log.i("AYUDA", "/users/$id/profile_pic.jpg")
+
 
                                 var bitmap = BitmapFactory.decodeByteArray( it,0,it.size)
                                 bitmap = Bitmap.createScaledBitmap(
                                     bitmap, 250, 250, false
                                 )
-                                profilesArrayList.add(ProfileItem(bitmap, info?.name));
+                                profilesArrayList.add(ProfileItem(bitmap, info?.name,  info?.gender,info?.birthdate));
 
 
                                 info?.image = bitmap;
@@ -152,12 +153,12 @@ class Utils {
                             }.addOnFailureListener {
 
                                 Log.d("Exception","Couldnt get Profile Pic!");
-                                profilesArrayList.add(ProfileItem(null, info?.name));
+                                profilesArrayList.add(ProfileItem(null, info?.name, info?.gender,info?.birthdate));
 
 
                             }.addOnCompleteListener {
                                 contador = contador+ 1;
-                                Log.i("AYUDA", contador.toString());
+
                                 if(snapshot.childrenCount <= contador){
 
                                     r.adapter = ProfilesRecyclerViewAdapter(profilesArrayList);
