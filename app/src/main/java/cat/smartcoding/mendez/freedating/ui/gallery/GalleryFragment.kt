@@ -28,7 +28,7 @@ class GalleryFragment : Fragment() {
 
     private var columnCount = 3
     private lateinit var storageRef: StorageReference;
-    private lateinit var newArrayList : ArrayList<GalleryItem>
+    lateinit var newArrayList : ArrayList<GalleryItem>
     lateinit var imageId : Array<Int>
     lateinit var name : Array<String>
 
@@ -109,7 +109,7 @@ class GalleryFragment : Fragment() {
 
     }
 
-    fun getUserdata(imagesArrayList: java.util.ArrayList<Uri>) {
+    fun getUserdata(imagesArrayList: java.util.ArrayList<Uri>? = null) {
         //ArrayList<Utils.Companion.GalleryItem> = null
 
         if (imagesArrayList != null) {
@@ -119,7 +119,6 @@ class GalleryFragment : Fragment() {
             }
 
         }
-
 
         recyclerView.adapter = PhotoAdapter(newArrayList)
     }

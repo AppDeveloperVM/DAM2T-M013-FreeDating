@@ -1,15 +1,18 @@
 package cat.smartcoding.mendez.freedating
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import cat.smartcoding.mendez.freedating.ui.gallery.GalleryFragment
@@ -28,11 +31,17 @@ import java.io.IOException
 
 import java.util.*
 import kotlin.collections.HashMap
+import com.google.firebase.auth.GetTokenResult
+
+import com.google.firebase.auth.FirebaseUser
+import io.reactivex.internal.subscriptions.SubscriptionHelper.cancel
+
 
 class Utils {
 
     companion object{
         private var database = FirebaseDatabase.getInstance("https://freedatingapp-66476-default-rtdb.europe-west1.firebasedatabase.app/")
+        private var storageRef : StorageReference = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
         private lateinit var dbref : DatabaseReference
         private var profilesArrayList : ArrayList<ProfileItem> = arrayListOf<ProfileItem>()
         private var imagesProfile : ArrayList<Uri> = arrayListOf<Uri>()
@@ -100,7 +109,7 @@ class Utils {
             profilesArrayList.clear()
 
             var arrayList : ArrayList<ProfileItem>? = null
-            var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
+            //var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
 
             dbref = database.getReference("users")
             dbref.keepSynced(true)
@@ -129,8 +138,6 @@ class Utils {
                                 }.addOnFailureListener {
                                     Log.d("Exception","Couldnt get Profile Pic!");
                                 }
-
-
 
                             }
 
@@ -164,31 +171,33 @@ class Utils {
 
         fun obtenirFotos(fragment: Fragment): Unit? {
 
+            //FirebaseAppCheck.getInstance().getAppCheckToken(false)
+
             var uid : String? = FirebaseAuth.getInstance().currentUser?.uid ?: return null
+            if( uid == null ) return null
 
-            //user Data
-            //var myRef : DatabaseReference = database.getReference("/users/$uid")
-            //ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
-            var storageRef =
-                FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
-            //var image : GalleryItem? = null
+            //gs://freedatingapp-66476.appspot.com/users/moxyxIYDBfTVdILNy98d4yLzCwv2/images
+            storageRef
+                    .child("/users/$uid/images/")
+                    /*.child("users")
+                    .child("$uid")
+                    .child("images")*/
+                    .listAll().addOnSuccessListener { it ->
+                        it.items.forEach{ it ->
+                            it.downloadUrl.addOnSuccessListener {
+                                // Got the download URL for "YourFolderName/YourFile.pdf"
+                                imagesProfile.add(it)
+                            }.addOnFailureListener {
 
-                storageRef.child("/users/")
-                    .child("$uid/")
-                    .child("background_pic.jpg").downloadUrl
-                    .addOnSuccessListener{
-
-                    // Got the download URL for "YourFolderName/YourFile.pdf"
-                    // Add it to your database
-                    imagesProfile.add(it)
-
+                            }
+                        }
                         (fragment as GalleryFragment)
                         fragment.getUserdata(imagesProfile)
 
-
-                    }.addOnFailureListener {
+                    }.addOnFailureListener{
                         Log.d("FireStorage Error","Couldn't get images")
                     }
+
 
                 /*myRef.addValueEventListener(object: ValueEventListener {
 
@@ -228,7 +237,7 @@ class Utils {
             val myRef = database.getReference("/users/$uid")
 
             //images
-            var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
+            //var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
             // sustituir img hardcodeada por img de perfil
             val profilePic = storageRef.child( "/users/$uid/profile_pic.jpg")
             val pPim = profilePic.getBytes(5000000)
