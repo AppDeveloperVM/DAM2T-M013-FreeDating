@@ -32,13 +32,8 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.HashMap
 
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
 import java.time.LocalDate
-import javax.xml.datatype.DatatypeConstants.DAYS
 import kotlin.collections.ArrayList
-import kotlin.time.DurationUnit
 
 
 class Utils {
@@ -187,7 +182,7 @@ class Utils {
 
                                 if(snapshot.childrenCount <= contador){
 
-                                    r.adapter = ProfilesRecyclerViewAdapter(profilesArrayList);
+                                    r.adapter = ProfilesRecyclerViewAdapter(profilesArrayList,null);
                                 }
                             }
                         }

@@ -24,7 +24,7 @@ class UserFragment : Fragment() {
     }
 
     private lateinit var viewModel: UserViewModel
-    public lateinit var binding: UserFragmentBinding
+    lateinit var binding: UserFragmentBinding
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
@@ -37,17 +37,16 @@ class UserFragment : Fragment() {
             container,
             false
         )
+
+        //setRecyclerView
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         recyclerView = binding.rvUsergallery;
         recyclerView.layoutManager = GridLayoutManager(recyclerView.context,3)
         recyclerView.setHasFixedSize(true)
 
-        //binding.tvUserAge
 
         Utils.obtenirMainUserProfile(this, 0);
-
         getUserdata();
-
 
         //return inflater.inflate(R.layout.user_fragment, container, false)
         return binding.root;
@@ -55,29 +54,7 @@ class UserFragment : Fragment() {
 
 
     private fun getUserdata() {
-        /* var imageId = arrayOf(
-            R.drawable.ic_launcher_round,
-            R.drawable.ic_launcher_round,
-            R.drawable.ic_launcher_round,
-            R.drawable.ic_launcher_round,
-            R.drawable.ic_launcher_round
-        )
-        var name = arrayOf(
-            "Juan",
-            "Manuel",
-            "Rocío",
-            "Jenny",
-            "Cristina"
-        )*/
-
-        /*var newArrayList = arrayListOf<UserPhotoGalleryItem>()
-        for(i in imageId.indices){
-            val images = UserPhotoGalleryItem(imageId[i])
-            newArrayList.add(images)
-        }*/
-
         Utils.obtenirFotos(this, recyclerView);
-
         //recyclerView.adapter = UserPhotoAdapter(newArrayList)
     }
 

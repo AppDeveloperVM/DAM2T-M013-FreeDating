@@ -1,6 +1,7 @@
 package cat.smartcoding.mendez.freedating.ui.profiles
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +13,6 @@ import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.ProfilesFragmentItemListBinding
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.storage.StorageReference
 
 /**
@@ -38,16 +38,8 @@ class ProfilesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
-
-//        arguments?.let {
-//            columnCount = it.getInt(ARG_COLUMN_COUNT)
-//        }
-
-
-
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,11 +48,18 @@ class ProfilesFragment : Fragment() {
         //val view = inflater.inflate(R.layout.profiles_fragment_item_list, container, false)
 
         _binding = ProfilesFragmentItemListBinding.inflate(inflater, container, false)
+
         recyclerView = binding.list
         val view: View = binding.root
 
+
+
         userArrayList = arrayListOf<ProfileItem>()
-        Utils.obtenirProfiles(this, recyclerView);
+        Utils.obtenirProfiles(this, recyclerView).run {
+            setClickListener()
+        }
+
+
 
         //fill recyclerView gallery
         imageId = arrayOf(
@@ -85,7 +84,7 @@ class ProfilesFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                newArrayList = arrayListOf<ProfileItem>()
+                //newArrayList = arrayListOf<ProfileItem>()
                 //getUserdata()
             //adapter = ProfilesRecyclerViewAdapter(newArrayList)
             }
@@ -93,17 +92,23 @@ class ProfilesFragment : Fragment() {
         return view
     }
 
+
+    fun setClickListener(){
+        recyclerView.adapter = ProfilesRecyclerViewAdapter(
+            userArrayList,ProfilesRecyclerViewAdapter.OnClickListener() {
+                Log.d("ONCLICK","PROFILE SELECTED")
+            })
+    }
+
     fun getUserdata(profilesArrayList : ArrayList<ProfileItem>? = null) {
 
 
-        /*for(i in imageId.indices){
-            val images = ProfileItem(imageId[i],name[i])
-            newArrayList.add(images)
-        }*/
-
         //newArrayList
-        recyclerView.adapter = profilesArrayList?.let { ProfilesRecyclerViewAdapter(it) }
+        recyclerView.adapter = profilesArrayList?.let { ProfilesRecyclerViewAdapter(it,null) }
     }
+
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
