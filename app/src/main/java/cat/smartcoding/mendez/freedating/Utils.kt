@@ -214,6 +214,8 @@ class Utils {
                 arrayImagenesGallery = ArrayList<GalleryItem>();
                 storageRef.child("/users/$uid/images/").listAll().addOnSuccessListener { listado ->
 
+
+
                     listado.items.forEach { item ->
 
                         val bytes = item.getBytes(5000000);

@@ -154,12 +154,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        /*navView.menu.findItem(R.id.nav_exit).setOnMenuItemClickListener {
-            var b = Bundle();
-            b.putBoolean("logout", false);
-            navController.navigate(R.id.nav_login, b);
-            false
-        }*/
 
 
         // Bottom navigation setup
@@ -197,25 +191,14 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
-
-        /*val exit = menu.findItem(R.id.nav_exit);
-        exit.setOnMenuItemClickListener {
-            var b = Bundle();
-            b.putBoolean("logout", false);
-            findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.nav_exit, b);
-            true
-        };*/
-
 
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-//        navController.navigateUp()
-//        navController.navigate()
+
 
         val id = item.itemId
 

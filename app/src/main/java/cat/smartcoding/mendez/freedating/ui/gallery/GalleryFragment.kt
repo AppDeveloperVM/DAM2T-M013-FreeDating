@@ -34,6 +34,8 @@ class GalleryFragment : Fragment() {
     lateinit var imageId : Array<Int>
     lateinit var name : Array<String>
 
+
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
     }
@@ -53,12 +55,9 @@ class GalleryFragment : Fragment() {
 
         //Taba en el create
         newArrayList = arrayListOf<GalleryItem>()
+
         Utils.obtenirFotos(this, binding.recyclerView);
-        //Log.i("AYUDA", arrayImagenes?.size.toString());
-        //fin Taba en el create
-        /*arrayImagenes?.forEach {
-            newArrayList.add(GalleryItem(it));
-        }*/
+
 
         //Firebase
         storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
