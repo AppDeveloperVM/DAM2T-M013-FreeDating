@@ -235,8 +235,9 @@ class Utils {
                             );
                             if (item == listado.items.last()) {
                                 cargaImagenes = false;
-                                r.adapter = PhotoAdapter(arrayImagenesGallery);
+
                             }
+                            r.adapter = PhotoAdapter(arrayImagenesGallery);
 
 
                         }.addOnFailureListener {
