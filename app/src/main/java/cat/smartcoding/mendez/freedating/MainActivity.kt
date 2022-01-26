@@ -154,11 +154,30 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        /*navView.menu.findItem(R.id.nav_exit).setOnMenuItemClickListener {
+            var b = Bundle();
+            b.putBoolean("logout", false);
+            navController.navigate(R.id.nav_login, b);
+            false
+        }*/
+
+
         // Bottom navigation setup
         val bottomNavigationView = binding.appBarMain.content.bottomNavigationView;
         bottomNavigationView.setupWithNavController(navController)
 
+        binding.navView.menu.findItem(R.id.nav_exit).setOnMenuItemClickListener{
+            var b = Bundle();
+            b.putBoolean("logout", true);
+            navController.navigate(R.id.nav_login, b);
+            true
+        };
+
+
+
     }
+
+
 
 
     override fun onResume() {
@@ -180,6 +199,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+
+        /*val exit = menu.findItem(R.id.nav_exit);
+        exit.setOnMenuItemClickListener {
+            var b = Bundle();
+            b.putBoolean("logout", false);
+            findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.nav_exit, b);
+            true
+        };*/
+
+
         return true
     }
 
@@ -190,9 +219,17 @@ class MainActivity : AppCompatActivity() {
 
         val id = item.itemId
 
+        Log.i("AYUDA", "TA ACA");
+
         when(id){
             R.id.action_editprofile -> navController.navigate(R.id.nav_user_edit);
             R.id.action_settings -> navController.navigate(R.id.nav_settings);
+            R.id.nav_exit -> {
+                var b = Bundle();
+                b.putBoolean("logout", true);
+                navController.navigate(R.id.nav_login, b);
+            }
+
         }
 
         /*if(id == R.id.action_editprofile){
@@ -203,6 +240,8 @@ class MainActivity : AppCompatActivity() {
 //        when(item.itemId) {
 //        }
     }
+
+
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)

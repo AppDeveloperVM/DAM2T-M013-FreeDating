@@ -1,6 +1,7 @@
 package cat.smartcoding.mendez.freedating.ui.login
 
 import android.content.ContentValues.TAG
+import android.content.Intent.getIntent
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Layout
@@ -43,6 +44,10 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner;
         auth = viewModel.getAuth();
 
+
+        if(arguments?.getBoolean("logout") ?: false){
+            auth.signOut();
+        }
        // auth.signOut();//QUITAR PARA EL FINAL
 
         viewModel.onLogin.observe(viewLifecycleOwner,{

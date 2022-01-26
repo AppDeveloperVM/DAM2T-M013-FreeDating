@@ -46,7 +46,7 @@
             android:title="@string/menu_terms_and_conditions" />
 
         <item
-            android:id="@+id/exit"
+            android:id="@+id/nav_exit"
             android:icon="@drawable/ic_menu_exit"
             android:title="@string/menu_close_session" />
 

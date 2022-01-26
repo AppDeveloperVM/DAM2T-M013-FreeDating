@@ -347,7 +347,7 @@ class Utils {
             var location: String? = "",
             var otherThings : String? = "",
             var description : String?= "",
-            var image : String? = "" //assetsToBitmap("ic_launcher_background")
+            //var image : String? = "" //assetsToBitmap("ic_launcher_background")
         )
         data class UpdateUser(
             var location: String? = "",
