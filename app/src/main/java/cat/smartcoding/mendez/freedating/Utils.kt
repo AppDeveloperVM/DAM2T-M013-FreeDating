@@ -47,7 +47,7 @@ class Utils {
         private lateinit var context : Context
 
         private lateinit var arrayImagenesGallery: ArrayList<GalleryItem>;
-        var cargaImagenes = true;
+        public var cargaImagenes = true;
 
 
         fun onCreate() {

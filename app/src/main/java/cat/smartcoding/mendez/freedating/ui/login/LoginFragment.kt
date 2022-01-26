@@ -47,6 +47,7 @@ class LoginFragment : Fragment() {
 
         if(arguments?.getBoolean("logout") ?: false){
             auth.signOut();
+            Utils.cargaImagenes = true;
         }
        // auth.signOut();//QUITAR PARA EL FINAL
 
