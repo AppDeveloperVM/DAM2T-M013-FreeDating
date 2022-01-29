@@ -47,11 +47,6 @@ class ProfilesRecyclerViewAdapter(
 
 
         val currentItem = values?.get(position)
-        //val imageBytes = android.util.Base64.decode(currentItem.image, android.util.Base64.DEFAULT);
-        //val imageBytes = android.util.Base64.decode(currentItem.image, android.util.Base64.DEFAULT);
-        //val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-        //currentItem.image?.let { holder.image.setImageResource(it) }  //currentItem.image
-        //currentItem.image?.let { holder.image.setImageBitmap(it) }  //currentItem.image
         if (currentItem != null) {
             Log.i("AYUDA", currentItem.image.toString() + " PARA: " + currentItem.name)
         };
@@ -72,6 +67,7 @@ class ProfilesRecyclerViewAdapter(
             var email: String? = currentItem.email
             var description : String? = currentItem.description
             var other : String? = currentItem.otherThings
+            /*
             Toast.makeText(it.context,
                 "Nombre: " + name +"\n"+
                         "Género: "+ gender +"\n"+
@@ -81,6 +77,8 @@ class ProfilesRecyclerViewAdapter(
                         "Other: " + other
                 ,Toast.LENGTH_SHORT).show()
             Log.d("click!", "ProfilesAdapter")
+            */
+
 
 
             NavHostFragment.findNavController(it.findFragment()).navigate(
@@ -105,9 +103,6 @@ class ProfilesRecyclerViewAdapter(
         override fun toString(): String {
             return super.toString() + " '" + name.text + "'"
         }
-
-
-
 
     }
 
