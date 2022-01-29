@@ -157,8 +157,6 @@ class Utils {
 
                             val pPim = profilePic.getBytes(5000000)
 
-
-
                             pPim.addOnSuccessListener {
 
 
@@ -166,15 +164,20 @@ class Utils {
                                 bitmap = Bitmap.createScaledBitmap(
                                     bitmap, 250, 250, false
                                 )
-                                profilesArrayList.add(ProfileItem(bitmap, info?.name,  info?.gender,info?.birthdate));
-
+                                //with profile pic
+                                profilesArrayList.add(
+                                    ProfileItem(bitmap, info?.name,  info?.gender,info?.birthdate,info?.email,info?.location,info?.otherThings,info?.description)
+                                );
 
                                 info?.image = bitmap;
 
                             }.addOnFailureListener {
 
+                                //without profile pic
                                 Log.d("Exception","Couldnt get Profile Pic!");
-                                profilesArrayList.add(ProfileItem(null, info?.name, info?.gender,info?.birthdate));
+                                profilesArrayList.add(
+                                    ProfileItem(null, info?.name,  info?.gender,info?.birthdate,info?.email,info?.location,info?.otherThings,info?.description)
+                                );
 
 
                             }.addOnCompleteListener {
@@ -256,7 +259,7 @@ class Utils {
         }
 
 
-        fun obtenirMainUserProfile(fragment: Fragment, type: Int = 0): Unit?{
+        fun obtenirMainUserProfile(fragment: Fragment, type: Int = 0, userId: String? = null): Unit?{
             val uid = FirebaseAuth.getInstance().currentUser?.uid
 
             if( uid == null ) return null

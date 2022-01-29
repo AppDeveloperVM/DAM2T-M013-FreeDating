@@ -24,7 +24,13 @@
         android:id="@+id/nav_profiles"
         android:name="cat.smartcoding.mendez.freedating.ui.profiles.ProfilesFragment"
         android:label="@string/menu_profiles"
-        tools:layout="@layout/profiles_fragment_item_list" />
+        tools:layout="@layout/profiles_fragment_item_list" >
+        <action
+            android:id="@+id/action_nav_profiles_to_profileDetailsFragment"
+            app:destination="@id/profileDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
 
     <!-- Mailbox buzon, historico de mensajes -->
     <fragment
@@ -102,5 +108,13 @@
         android:id="@+id/nav_user_edit"
         android:name="cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment"
         android:label="Edit User" />
+    <fragment
+        android:id="@+id/profileDetailsFragment"
+        android:name="cat.smartcoding.mendez.freedating.ui.profiles.details.ProfileDetailsFragment"
+        android:label="ProfileDetailsFragment" >
+        <argument
+            android:name="info"
+            app:argType="cat.smartcoding.mendez.freedating.ui.profiles.ProfileItem" />
+    </fragment>
 
 </navigation>

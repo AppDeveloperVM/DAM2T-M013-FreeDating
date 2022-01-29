@@ -12,12 +12,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.navigation.fragment.NavHostFragment
 import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.ProfilesFragmentItemBinding
 import kotlinx.coroutines.NonDisposableHandle.parent
 import java.security.AccessController.getContext
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.findFragment
+import cat.smartcoding.mendez.freedating.ui.profiles.details.ProfileDetailsFragment
+
 
 class ProfilesRecyclerViewAdapter(
     private val values: ArrayList<ProfileItem>,
@@ -64,12 +69,27 @@ class ProfilesRecyclerViewAdapter(
             var name : String? = currentItem.name
             var gender : String? = currentItem.gender
             var birthdate: String? = currentItem.birthdate
+            var email: String? = currentItem.email
+            var description : String? = currentItem.description
+            var other : String? = currentItem.otherThings
             Toast.makeText(it.context,
                 "Nombre: " + name +"\n"+
                         "Género: "+ gender +"\n"+
-                        "BirthDate: "+ birthdate
+                        "BirthDate: "+ birthdate + "\n" +
+                        "Email: " + email+ "\n" +
+                        "Description: " + description + "\n"+
+                        "Other: " + other
                 ,Toast.LENGTH_SHORT).show()
-            Log.d("click!", it.toString())
+            Log.d("click!", "ProfilesAdapter")
+
+
+            NavHostFragment.findNavController(it.findFragment()).navigate(
+                ProfilesFragmentDirections.actionNavProfilesToProfileDetailsFragment(
+                    currentItem
+                )
+
+            );
+
         }
     }
 
@@ -86,10 +106,13 @@ class ProfilesRecyclerViewAdapter(
             return super.toString() + " '" + name.text + "'"
         }
 
+
+
+
     }
 
-    class OnClickListener(val clickListener: (user: Utils.Companion.User) -> Unit) {
-        fun onClick(user: Utils.Companion.User) = clickListener(user)
+    class OnClickListener(val clickListener: (profile: ProfileItem) -> Unit) {
+        fun onClick(profile: ProfileItem) = clickListener(profile)
     }
 
 }
