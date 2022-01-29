@@ -32,6 +32,7 @@ class ProfileDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val info = args.info
+        val userId = info.userId
         val image = info.image
         var bitmap: Bitmap? = null
 
@@ -46,6 +47,8 @@ class ProfileDetailsFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ProfileDetailsViewModel::class.java)
 
         if(info != null) {
+
+            Utils.obtenirBannerPic(this, userId)
             //binding.ivUserProfile = image
             //binding.iwUserBanner.setImageBitmap(image)
             if(image!= null) {

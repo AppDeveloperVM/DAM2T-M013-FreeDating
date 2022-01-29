@@ -19,6 +19,7 @@ import cat.smartcoding.mendez.freedating.ui.gallery.PhotoAdapter
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfileItem
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesFragment
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesRecyclerViewAdapter
+import cat.smartcoding.mendez.freedating.ui.profiles.details.ProfileDetailsFragment
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
 import cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -166,7 +167,7 @@ class Utils {
                                 )
                                 //with profile pic
                                 profilesArrayList.add(
-                                    ProfileItem(bitmap, info?.name,  info?.gender,info?.birthdate,info?.email,info?.location,info?.otherThings,info?.description)
+                                    ProfileItem(id,bitmap, info?.name,  info?.gender,info?.birthdate,info?.email,info?.location,info?.otherThings,info?.description)
                                 );
 
                                 info?.image = bitmap;
@@ -176,7 +177,7 @@ class Utils {
                                 //without profile pic
                                 Log.d("Exception","Couldnt get Profile Pic!");
                                 profilesArrayList.add(
-                                    ProfileItem(null, info?.name,  info?.gender,info?.birthdate,info?.email,info?.location,info?.otherThings,info?.description)
+                                    ProfileItem(id ,null, info?.name,  info?.gender,info?.birthdate,info?.email,info?.location,info?.otherThings,info?.description)
                                 );
 
 
@@ -255,6 +256,22 @@ class Utils {
             }else{
                 r.adapter = PhotoAdapter(arrayImagenesGallery);
             }
+            return null;
+        }
+
+        fun obtenirBannerPic(fragment: Fragment,userId: String? = null): Unit?{
+
+            val profileBackgroundPic = storageRef.child( "/users/$userId/background_pic.jpg")
+            val pBPim = profileBackgroundPic.getBytes(5000000)
+            pBPim.addOnSuccessListener {
+                var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
+
+                (fragment as ProfileDetailsFragment)
+                fragment.binding.iwUserBanner.setImageBitmap(bitmap)
+
+            }.addOnFailureListener {
+            }
+
             return null;
         }
 

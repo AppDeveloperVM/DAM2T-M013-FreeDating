@@ -6,6 +6,7 @@ import android.os.Parcelable
 
 //@Parcelize
 data class ProfileItem(
+    var userId: String? = "",
     var image: Bitmap? = null,
     var name : String? = "",
     var gender : String? = "",
@@ -16,6 +17,7 @@ data class ProfileItem(
     var description : String?= "",
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readParcelable(Bitmap::class.java.classLoader),
         parcel.readString(),
         parcel.readString(),
@@ -28,6 +30,7 @@ data class ProfileItem(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(userId)
         parcel.writeParcelable(image, flags)
         parcel.writeString(name)
         parcel.writeString(gender)
@@ -51,4 +54,5 @@ data class ProfileItem(
             return arrayOfNulls(size)
         }
     }
+
 }
