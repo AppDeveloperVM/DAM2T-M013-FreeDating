@@ -44,9 +44,10 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner;
         auth = viewModel.getAuth();
 
-
         if(arguments?.getBoolean("logout") ?: false){
             auth.signOut();
+            Utils.cargaImagenes = true;
+
         }
        // auth.signOut();//QUITAR PARA EL FINAL
 
@@ -89,7 +90,7 @@ class LoginFragment : Fragment() {
 
             (activity as MainActivity).setDrawer_Unlocked();
             Utils.obtenirDadesUsuari(activity as MainActivity);
-            NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionLoginFragmentToNavGallery());
+            NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionNavLoginToNavUser());
 
         }else{
             //COSAS QUE HACER PARA CUANDO NO ESTE LOGEADO

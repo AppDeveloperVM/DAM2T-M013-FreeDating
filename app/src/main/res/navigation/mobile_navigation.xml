@@ -83,6 +83,9 @@
             android:name="logout"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_user"
+            app:destination="@id/nav_user" />
     </fragment>
     <fragment
         android:id="@+id/nav_register"
@@ -91,6 +94,9 @@
         <action
             android:id="@+id/action_nav_register_to_nav_gallery"
             app:destination="@id/nav_gallery" />
+        <action
+            android:id="@+id/action_nav_register_to_nav_user"
+            app:destination="@id/nav_user" />
     </fragment>
     <fragment
         android:id="@+id/nav_user_edit"

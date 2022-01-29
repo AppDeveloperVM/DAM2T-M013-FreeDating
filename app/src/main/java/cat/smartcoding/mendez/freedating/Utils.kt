@@ -47,7 +47,7 @@ class Utils {
         private lateinit var context : Context
 
         private lateinit var arrayImagenesGallery: ArrayList<GalleryItem>;
-        var cargaImagenes = true;
+        public var cargaImagenes = true;
 
 
         fun onCreate() {
@@ -214,6 +214,8 @@ class Utils {
                 arrayImagenesGallery = ArrayList<GalleryItem>();
                 storageRef.child("/users/$uid/images/").listAll().addOnSuccessListener { listado ->
 
+
+
                     listado.items.forEach { item ->
 
                         val bytes = item.getBytes(5000000);
@@ -233,8 +235,9 @@ class Utils {
                             );
                             if (item == listado.items.last()) {
                                 cargaImagenes = false;
-                                r.adapter = PhotoAdapter(arrayImagenesGallery);
+
                             }
+                            r.adapter = PhotoAdapter(arrayImagenesGallery);
 
 
                         }.addOnFailureListener {
