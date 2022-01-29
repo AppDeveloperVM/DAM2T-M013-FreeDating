@@ -84,9 +84,7 @@ class ProfilesFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                //newArrayList = arrayListOf<ProfileItem>()
-                //getUserdata()
-            //adapter = ProfilesRecyclerViewAdapter(newArrayList)
+
             }
         }
         return view
@@ -99,14 +97,6 @@ class ProfilesFragment : Fragment() {
                 Log.d("ONCLICK","PROFILE SELECTED")
             })
     }
-
-    fun getUserdata(profilesArrayList : ArrayList<ProfileItem>? = null) {
-
-
-        //newArrayList
-        recyclerView.adapter = profilesArrayList?.let { ProfilesRecyclerViewAdapter(it,null) }
-    }
-
 
 
 

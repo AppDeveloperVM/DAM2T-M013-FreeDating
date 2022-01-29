@@ -20,6 +20,7 @@ import cat.smartcoding.mendez.freedating.ui.profiles.ProfileItem
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesFragment
 import cat.smartcoding.mendez.freedating.ui.profiles.ProfilesRecyclerViewAdapter
 import cat.smartcoding.mendez.freedating.ui.profiles.details.ProfileDetailsFragment
+import cat.smartcoding.mendez.freedating.ui.profiles.details.ProfileDetailsPhotoAdapter
 import cat.smartcoding.mendez.freedating.ui.user.UserFragment
 import cat.smartcoding.mendez.freedating.ui.user.edit.UserEditFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -206,19 +207,21 @@ class Utils {
         }
 
 
-        fun obtenirFotos(fragment: Fragment, r: RecyclerView): Unit? {
+        fun obtenirFotos(fragment: Fragment, r: RecyclerView, userId: String?= null,recyclerName:String? = null ): Unit? {
 
-
-            var uid : String? = FirebaseAuth.getInstance().currentUser?.uid ?: return null
-            if( uid == null ) return null
-
+            var uid: String
+            if(userId == null) {
+                uid = FirebaseAuth.getInstance().currentUser?.uid ?: return null
+            }else{
+                uid = userId
+            }
+            if (uid == null) return null
 
             if(cargaImagenes == true) {
 
                 arrayImagenesGallery = ArrayList<GalleryItem>();
+                arrayImagenesGallery.clear()
                 storageRef.child("/users/$uid/images/").listAll().addOnSuccessListener { listado ->
-
-
 
                     listado.items.forEach { item ->
 
@@ -238,10 +241,14 @@ class Utils {
                                 )
                             );
                             if (item == listado.items.last()) {
-                                cargaImagenes = false;
+                                //cargaImagenes = false;
 
                             }
-                            r.adapter = PhotoAdapter(arrayImagenesGallery);
+
+                            if(recyclerName == "profileDetails")
+                                r.adapter = ProfileDetailsPhotoAdapter(arrayImagenesGallery);
+                            else
+                                r.adapter = PhotoAdapter(arrayImagenesGallery);
 
 
                         }.addOnFailureListener {
@@ -254,7 +261,10 @@ class Utils {
                 }
 
             }else{
-                r.adapter = PhotoAdapter(arrayImagenesGallery);
+                if(recyclerName == "profileDetails")
+                    r.adapter = ProfileDetailsPhotoAdapter(arrayImagenesGallery);
+                else
+                    r.adapter = PhotoAdapter(arrayImagenesGallery);
             }
             return null;
         }
@@ -283,7 +293,6 @@ class Utils {
             val myRef = database.getReference("/users/$uid")
 
             //images
-            //var storageRef = FirebaseStorage.getInstance("gs://freedatingapp-66476.appspot.com").reference
             // sustituir img hardcodeada por img de perfil
             val profilePic = storageRef.child( "/users/$uid/profile_pic.jpg")
             val pPim = profilePic.getBytes(5000000)
@@ -350,18 +359,6 @@ class Utils {
             return null;
         }
 
-
-        private fun assetsToBitmap(fileName:String): Bitmap?{
-            return try{
-                val stream = context?.assets?.open(fileName)
-                BitmapFactory.decodeStream(stream)
-            }catch (e: IOException){
-                e.printStackTrace()
-                null
-            }
-        }
-
-
         data class User(
             var name: String = "",
             var email: String = "",
@@ -379,19 +376,6 @@ class Utils {
         )
 
 
-       /* fun getBitmapFromURL(src: String?): Bitmap? {
-            return try {
-                val url = URL(src)
-                val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-                connection.setDoInput(true)
-                connection.connect()
-                val input: InputStream = connection.getInputStream()
-                BitmapFactory.decodeStream(input)
-            } catch (e: IOException) {
-                // Log exception
-                null
-            }
-        }*/
     }
 
 

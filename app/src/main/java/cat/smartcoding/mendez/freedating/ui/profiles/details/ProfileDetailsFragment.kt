@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cat.smartcoding.mendez.freedating.R
 import cat.smartcoding.mendez.freedating.Utils
 import cat.smartcoding.mendez.freedating.databinding.ProfileDetailsFragmentBinding
@@ -25,6 +27,7 @@ class ProfileDetailsFragment : Fragment() {
 
     private lateinit var viewModel: ProfileDetailsViewModel
     lateinit var binding : ProfileDetailsFragmentBinding
+    private lateinit var recyclerView: RecyclerView
     val args: ProfileDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -36,8 +39,6 @@ class ProfileDetailsFragment : Fragment() {
         val image = info.image
         var bitmap: Bitmap? = null
 
-
-
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.profile_details_fragment,
@@ -45,12 +46,14 @@ class ProfileDetailsFragment : Fragment() {
             false
         )
         viewModel = ViewModelProvider(this).get(ProfileDetailsViewModel::class.java)
+        recyclerView = binding.rvProfilegallery
+        recyclerView.layoutManager = GridLayoutManager(recyclerView.context,3)
+        recyclerView.setHasFixedSize(true)
 
         if(info != null) {
 
             Utils.obtenirBannerPic(this, userId)
-            //binding.ivUserProfile = image
-            //binding.iwUserBanner.setImageBitmap(image)
+
             if(image!= null) {
                 bitmap = image
                 binding.ivUserProfile.setImageBitmap(bitmap)
@@ -62,14 +65,17 @@ class ProfileDetailsFragment : Fragment() {
             binding.tvUserOther.text = if (info?.otherThings != "") info?.otherThings else "Nothing more";
             binding.tvUserDescription.text = if (info?.description != "") info?.description else "This person has no description yet";
 
-
         }
+
+        if (userId != null) {
+            getUserdata(userId,"profileDetails")
+        };
 
 
         return binding.root
     }
 
-    private fun getUserdata() {
-
+    private fun getUserdata(userId:String,recyclerName: String? = null) {
+        Utils.obtenirFotos(this, recyclerView,userId, recyclerName);
     }
 }
