@@ -85,7 +85,7 @@ And much more …
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    public lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout;
     private lateinit var storageRef: StorageReference;
     private lateinit var auth: FirebaseAuth;
@@ -499,13 +499,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun changeUserMenuData(name: String, email: String, image: String = "") {
+    fun changeUserMenuData(name: String, email: String) {
         (binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_mainMenuName)).text = name
         (binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_mainMenuEmail)).text =
             email
-        if(image != ""){
-            //(binding.navView.getHeaderView(0).findViewById<ImageView>(R.id.iv_mainMenuImage)).
-        }
+        /*if(image != null){
+            (binding.navView.getHeaderView(0).findViewById<ImageView>(R.id.iv_mainMenuImage)).setImageBitmap(image)
+        }*/
     }
 
 

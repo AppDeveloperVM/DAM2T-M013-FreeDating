@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -302,6 +303,12 @@ class Utils {
 
             pPim.addOnSuccessListener {
                 var bitmap = BitmapFactory.decodeByteArray( it, 0, it.size )
+
+
+                //(activity as MainActivity).binding.navView.getHeaderView(0).findViewById<ImageView>(R.id.iv_mainMenuImage)).setImageBitmap(image)
+                (fragment.activity as MainActivity).binding.navView.getHeaderView(0).findViewById<ImageView>(R.id.iv_mainMenuImage_2).setImageBitmap(bitmap);
+
+
 
                 if (type == 0) {
                     (fragment as UserFragment)
